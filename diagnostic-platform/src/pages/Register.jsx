@@ -1,227 +1,139 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState } from "react";
 
 export default function Register() {
-
-  const navigate = useNavigate();
-
-  const [factoryName, setFactoryName] =
-    useState('');
-
-  const [factoryID, setFactoryID] =
-    useState('');
-
-  const [email, setEmail] =
-    useState('');
-
-  const [password, setPassword] =
-    useState('');
-
-  const [confirmPassword, setConfirmPassword] =
-    useState('');
-
-
-  const createAccount = () => {
-
-    if (
-      !factoryName ||
-      !factoryID ||
-      !email ||
-      !password ||
-      !confirmPassword
-    ) {
-
-      alert('Fill all fields');
-      return;
-    }
-
-    if (password !== confirmPassword) {
-
-      alert('Passwords do not match');
-      return;
-    }
-
-    const technicianData = {
-
-      name: factoryName,
-      factoryID,
-      email,
-      password,
-      tests: 0,
-      faults: 0,
-      status: 'ACTIVE'
-
-    };
-
-    const existingTechs =
-      JSON.parse(
-        localStorage.getItem('technicians')
-      ) || [];
-
-    existingTechs.push(
-      technicianData
-    );
-
-    localStorage.setItem(
-      'technicians',
-      JSON.stringify(existingTechs)
-    );
-
-    alert(
-      'Technician account created successfully'
-    );
-
-    navigate('/');
-  };
-
+  const [enableAI, setEnableAI] = useState(true);
+  const [enableScan, setEnableScan] = useState(true);
+  const [enableNotif, setEnableNotif] = useState(true);
 
   return (
-    <div className="min-h-screen bg-black text-white flex items-center justify-center p-8">
+    <div className="min-h-screen bg-black flex items-center justify-center px-4 py-10">
+      <div className="w-full max-w-md bg-[#111] rounded-3xl p-6 border border-cyan-500 shadow-2xl">
 
-      <div className="w-full max-w-2xl bg-zinc-900 border border-zinc-800 rounded-3xl p-10">
+        {/* TITLE */}
+        <h1 className="text-4xl md:text-6xl font-bold text-cyan-400 leading-tight">
+          Technician Registration
+        </h1>
 
-        <div className="flex justify-between items-start mb-10">
+        <p className="text-gray-400 mt-3 text-sm md:text-base">
+          Create industrial technician account
+        </p>
 
-          <div>
+        {/* FORM */}
+        <div className="mt-8 space-y-4">
 
-            <h1 className="text-5xl font-bold text-cyan-400 mb-3">
-              Technician Registration
-            </h1>
+          <div className="flex flex-col md:flex-row gap-4">
+            <input
+              type="text"
+              placeholder="Technician Name"
+              className="w-full bg-[#222] text-white p-4 rounded-2xl outline-none"
+            />
 
-            <p className="text-zinc-400">
-              Create industrial technician account
-            </p>
-
+            <input
+              type="text"
+              placeholder="Technician ID"
+              className="w-full bg-[#222] text-white p-4 rounded-2xl outline-none"
+            />
           </div>
 
+          <div className="flex flex-col md:flex-row gap-4">
+            <input
+              type="text"
+              placeholder="ESP32 Port"
+              className="w-full bg-[#222] text-white p-4 rounded-2xl outline-none"
+            />
 
-          <div className="bg-cyan-500/20 border border-cyan-500 text-cyan-400 px-5 py-3 rounded-2xl font-bold">
-            NEW TECHNICIAN
+            <input
+              type="email"
+              placeholder="Email"
+              className="w-full bg-[#222] text-white p-4 rounded-2xl outline-none"
+            />
           </div>
 
+          <div className="flex flex-col md:flex-row gap-4">
+            <input
+              type="password"
+              placeholder="Password"
+              className="w-full bg-[#222] text-white p-4 rounded-2xl outline-none"
+            />
+
+            <input
+              type="password"
+              placeholder="Confirm Password"
+              className="w-full bg-[#222] text-white p-4 rounded-2xl outline-none"
+            />
+          </div>
         </div>
 
+        {/* OPTIONS */}
+        <div className="bg-[#1b1b1b] rounded-3xl p-5 mt-8">
 
-        <div className="grid grid-cols-2 gap-6">
-
-          <input
-            value={factoryName}
-            onChange={(e) =>
-              setFactoryName(e.target.value)
-            }
-            placeholder="Technician Name"
-            className="bg-zinc-800 p-5 rounded-2xl outline-none"
-          />
-
-          <input
-            value={factoryID}
-            onChange={(e) =>
-              setFactoryID(e.target.value)
-            }
-            placeholder="Technician ID"
-            className="bg-zinc-800 p-5 rounded-2xl outline-none"
-          />
-
-          <input
-            value={email}
-            onChange={(e) =>
-              setEmail(e.target.value)
-            }
-            placeholder="Technician Email"
-            className="bg-zinc-800 p-5 rounded-2xl outline-none"
-          />
-
-          <input
-            placeholder="ESP32 COM Port"
-            defaultValue="COM6"
-            className="bg-zinc-800 p-5 rounded-2xl outline-none"
-          />
-
-          <input
-            type="password"
-            value={password}
-            onChange={(e) =>
-              setPassword(e.target.value)
-            }
-            placeholder="Password"
-            className="bg-zinc-800 p-5 rounded-2xl outline-none"
-          />
-
-          <input
-            type="password"
-            value={confirmPassword}
-            onChange={(e) =>
-              setConfirmPassword(e.target.value)
-            }
-            placeholder="Confirm Password"
-            className="bg-zinc-800 p-5 rounded-2xl outline-none"
-          />
-
-        </div>
-
-
-        <div className="bg-zinc-800 rounded-3xl p-6 mt-8">
-
-          <h3 className="text-2xl font-bold mb-5">
+          <h2 className="text-2xl font-bold text-white mb-6">
             Technician Options
-          </h3>
+          </h2>
 
-          <div className="space-y-4">
+          <div className="space-y-5">
 
-            <div className="flex justify-between items-center">
+            {/* AI */}
+            <div className="flex items-center justify-between">
+              <span className="text-white">
+                Enable AI Monitoring
+              </span>
 
-              <p>Enable AI Monitoring</p>
-
-              <div className="bg-green-500 text-black px-4 py-2 rounded-xl font-bold">
-                ON
-              </div>
-
+              <button
+                onClick={() => setEnableAI(!enableAI)}
+                className={`px-5 py-2 rounded-xl font-bold ${
+                  enableAI
+                    ? "bg-green-500 text-black"
+                    : "bg-gray-700 text-white"
+                }`}
+              >
+                {enableAI ? "ON" : "OFF"}
+              </button>
             </div>
 
+            {/* SCAN */}
+            <div className="flex items-center justify-between">
+              <span className="text-white">
+                Enable Auto Scan
+              </span>
 
-            <div className="flex justify-between items-center">
-
-              <p>Enable Auto Scan</p>
-
-              <div className="bg-green-500 text-black px-4 py-2 rounded-xl font-bold">
-                ON
-              </div>
-
+              <button
+                onClick={() => setEnableScan(!enableScan)}
+                className={`px-5 py-2 rounded-xl font-bold ${
+                  enableScan
+                    ? "bg-green-500 text-black"
+                    : "bg-gray-700 text-white"
+                }`}
+              >
+                {enableScan ? "ON" : "OFF"}
+              </button>
             </div>
 
+            {/* NOTIFICATIONS */}
+            <div className="flex items-center justify-between">
+              <span className="text-white">
+                Enable Notifications
+              </span>
 
-            <div className="flex justify-between items-center">
-
-              <p>Enable Notifications</p>
-
-              <div className="bg-green-500 text-black px-4 py-2 rounded-xl font-bold">
-                ON
-              </div>
-
+              <button
+                onClick={() => setEnableNotif(!enableNotif)}
+                className={`px-5 py-2 rounded-xl font-bold ${
+                  enableNotif
+                    ? "bg-green-500 text-black"
+                    : "bg-gray-700 text-white"
+                }`}
+              >
+                {enableNotif ? "ON" : "OFF"}
+              </button>
             </div>
-
           </div>
-
         </div>
 
-
-        <button
-          onClick={createAccount}
-          className="w-full bg-cyan-500 hover:bg-cyan-400 transition text-black font-bold py-5 rounded-2xl mt-10"
-        >
+        {/* BUTTON */}
+        <button className="w-full mt-8 bg-cyan-500 hover:bg-cyan-400 transition-all text-black font-bold py-4 rounded-2xl text-lg">
           CREATE TECHNICIAN ACCOUNT
         </button>
-
-
-        <button
-          onClick={() => navigate('/')}
-          className="w-full bg-zinc-800 hover:bg-zinc-700 transition py-5 rounded-2xl mt-5"
-        >
-          BACK TO LOGIN
-        </button>
-
       </div>
-
     </div>
   );
 }
