@@ -1,138 +1,191 @@
 import { useState } from "react";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  collection,
+  addDoc,
+  getDocs,
+  query,
+  where,
+} from "firebase/firestore";
+import { auth, db } from "../firebase/config";
+import { useNavigate } from "react-router-dom";
 
 export default function Register() {
-  const [enableAI, setEnableAI] = useState(true);
-  const [enableScan, setEnableScan] = useState(true);
-  const [enableNotif, setEnableNotif] = useState(true);
+  const navigate = useNavigate();
+
+  const [formData, setFormData] = useState({
+    technicianName: "",
+    technicianId: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+
+  const [loading, setLoading] = useState(false);
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleRegister = async () => {
+    const {
+      technicianName,
+      technicianId,
+      email,
+      password,
+      confirmPassword,
+    } = formData;
+
+    if (
+      !technicianName ||
+      !technicianId ||
+      !email ||
+      !password ||
+      !confirmPassword
+    ) {
+      alert("Please fill all fields");
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      alert("Passwords do not match");
+      return;
+    }
+
+    try {
+      setLoading(true);
+
+      // CHECK DUPLICATE EMAIL
+      const emailQuery = query(
+        collection(db, "technicians"),
+        where("email", "==", email)
+      );
+
+      const emailSnapshot = await getDocs(emailQuery);
+
+      if (!emailSnapshot.empty) {
+        alert("Email already exists");
+        setLoading(false);
+        return;
+      }
+
+      // CHECK DUPLICATE TECHNICIAN ID
+      const idQuery = query(
+        collection(db, "technicians"),
+        where("technicianId", "==", technicianId)
+      );
+
+      const idSnapshot = await getDocs(idQuery);
+
+      if (!idSnapshot.empty) {
+        alert("Technician ID already exists");
+        setLoading(false);
+        return;
+      }
+
+      // CREATE AUTH ACCOUNT
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+
+      // SAVE USER DATA
+      await addDoc(collection(db, "technicians"), {
+        uid: userCredential.user.uid,
+        technicianName,
+        technicianId,
+        email,
+        role: "technician",
+        createdAt: new Date(),
+      });
+
+      alert("Account created successfully");
+
+      navigate("/");
+    } catch (error) {
+      console.error(error);
+      alert(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
-    <div className="min-h-screen bg-black flex items-center justify-center px-4 py-10">
-      <div className="w-full max-w-md bg-[#111] rounded-3xl p-6 border border-cyan-500 shadow-2xl">
-
-        {/* TITLE */}
+    <div className="min-h-screen bg-black flex items-center justify-center p-4">
+      <div className="w-full max-w-md bg-[#111117] rounded-3xl p-6 md:p-10 shadow-2xl">
         <h1 className="text-4xl md:text-6xl font-bold text-cyan-400 leading-tight">
           Technician Registration
         </h1>
 
-        <p className="text-gray-400 mt-3 text-sm md:text-base">
+        <p className="text-gray-400 mt-3 mb-8">
           Create industrial technician account
         </p>
 
-        {/* FORM */}
-        <div className="mt-8 space-y-4">
+        <div className="space-y-5">
+          <input
+            type="text"
+            name="technicianName"
+            placeholder="Technician Name"
+            value={formData.technicianName}
+            onChange={handleChange}
+            className="w-full bg-[#23232b] text-white rounded-2xl px-5 py-4 outline-none"
+          />
 
-          <div className="flex flex-col md:flex-row gap-4">
-            <input
-              type="text"
-              placeholder="Technician Name"
-              className="w-full bg-[#222] text-white p-4 rounded-2xl outline-none"
-            />
+          <input
+            type="text"
+            name="technicianId"
+            placeholder="Technician ID"
+            value={formData.technicianId}
+            onChange={handleChange}
+            className="w-full bg-[#23232b] text-white rounded-2xl px-5 py-4 outline-none"
+          />
 
-            <input
-              type="text"
-              placeholder="Technician ID"
-              className="w-full bg-[#222] text-white p-4 rounded-2xl outline-none"
-            />
-          </div>
+          <input
+            type="email"
+            name="email"
+            placeholder="Technician Email"
+            value={formData.email}
+            onChange={handleChange}
+            className="w-full bg-[#23232b] text-white rounded-2xl px-5 py-4 outline-none"
+          />
 
-          <div className="flex flex-col md:flex-row gap-4">
-            <input
-              type="text"
-              placeholder="ESP32 Port"
-              className="w-full bg-[#222] text-white p-4 rounded-2xl outline-none"
-            />
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            value={formData.password}
+            onChange={handleChange}
+            className="w-full bg-[#23232b] text-white rounded-2xl px-5 py-4 outline-none"
+          />
 
-            <input
-              type="email"
-              placeholder="Email"
-              className="w-full bg-[#222] text-white p-4 rounded-2xl outline-none"
-            />
-          </div>
+          <input
+            type="password"
+            name="confirmPassword"
+            placeholder="Confirm Password"
+            value={formData.confirmPassword}
+            onChange={handleChange}
+            className="w-full bg-[#23232b] text-white rounded-2xl px-5 py-4 outline-none"
+          />
 
-          <div className="flex flex-col md:flex-row gap-4">
-            <input
-              type="password"
-              placeholder="Password"
-              className="w-full bg-[#222] text-white p-4 rounded-2xl outline-none"
-            />
+          <button
+            onClick={handleRegister}
+            disabled={loading}
+            className="w-full bg-cyan-500 hover:bg-cyan-400 text-black font-bold py-4 rounded-2xl transition-all"
+          >
+            {loading ? "CREATING ACCOUNT..." : "CREATE TECHNICIAN ACCOUNT"}
+          </button>
 
-            <input
-              type="password"
-              placeholder="Confirm Password"
-              className="w-full bg-[#222] text-white p-4 rounded-2xl outline-none"
-            />
-          </div>
+          <button
+            onClick={() => navigate("/")}
+            className="w-full bg-[#23232b] text-white py-4 rounded-2xl"
+          >
+            BACK TO LOGIN
+          </button>
         </div>
-
-        {/* OPTIONS */}
-        <div className="bg-[#1b1b1b] rounded-3xl p-5 mt-8">
-
-          <h2 className="text-2xl font-bold text-white mb-6">
-            Technician Options
-          </h2>
-
-          <div className="space-y-5">
-
-            {/* AI */}
-            <div className="flex items-center justify-between">
-              <span className="text-white">
-                Enable AI Monitoring
-              </span>
-
-              <button
-                onClick={() => setEnableAI(!enableAI)}
-                className={`px-5 py-2 rounded-xl font-bold ${
-                  enableAI
-                    ? "bg-green-500 text-black"
-                    : "bg-gray-700 text-white"
-                }`}
-              >
-                {enableAI ? "ON" : "OFF"}
-              </button>
-            </div>
-
-            {/* SCAN */}
-            <div className="flex items-center justify-between">
-              <span className="text-white">
-                Enable Auto Scan
-              </span>
-
-              <button
-                onClick={() => setEnableScan(!enableScan)}
-                className={`px-5 py-2 rounded-xl font-bold ${
-                  enableScan
-                    ? "bg-green-500 text-black"
-                    : "bg-gray-700 text-white"
-                }`}
-              >
-                {enableScan ? "ON" : "OFF"}
-              </button>
-            </div>
-
-            {/* NOTIFICATIONS */}
-            <div className="flex items-center justify-between">
-              <span className="text-white">
-                Enable Notifications
-              </span>
-
-              <button
-                onClick={() => setEnableNotif(!enableNotif)}
-                className={`px-5 py-2 rounded-xl font-bold ${
-                  enableNotif
-                    ? "bg-green-500 text-black"
-                    : "bg-gray-700 text-white"
-                }`}
-              >
-                {enableNotif ? "ON" : "OFF"}
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {/* BUTTON */}
-        <button className="w-full mt-8 bg-cyan-500 hover:bg-cyan-400 transition-all text-black font-bold py-4 rounded-2xl text-lg">
-          CREATE TECHNICIAN ACCOUNT
-        </button>
       </div>
     </div>
   );
