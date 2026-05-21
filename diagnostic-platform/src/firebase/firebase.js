@@ -3,12 +3,13 @@ import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "PASTE_YOUR_REAL_API_KEY_HERE",
-  authDomain: "PASTE_YOUR_REAL_AUTH_DOMAIN_HERE",
-  projectId: "PASTE_YOUR_REAL_PROJECT_ID_HERE",
-  storageBucket: "PASTE_YOUR_REAL_STORAGE_BUCKET_HERE",
-  messagingSenderId: "PASTE_YOUR_REAL_MESSAGING_SENDER_ID_HERE",
-  appId: "PASTE_YOUR_REAL_APP_ID_HERE",
+  apiKey: "AIzaSyCLwfDqahYIEdAlOESJF8VjqONTNS3M2nk",
+  authDomain: "diagnostic-platform-f524a.firebaseapp.com",
+  projectId: "diagnostic-platform-f524a",
+  storageBucket: "diagnostic-platform-f524a.firebasestorage.app",
+  messagingSenderId: "392734465750",
+  appId: "1:392734465750:web:8fc15a4498fca5cb76f377",
+  measurementId: "G-78PLQRLL5C",
 };
 
 const app = initializeApp(firebaseConfig);
