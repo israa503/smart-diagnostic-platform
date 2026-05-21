@@ -7,7 +7,9 @@ import {
   query,
   where,
 } from "firebase/firestore";
-import { auth, db } from "../firebase/config";
+
+import { auth, db } from "../firebase/firebase";
+
 import { useNavigate } from "react-router-dom";
 
 export default function Register() {
@@ -86,7 +88,7 @@ export default function Register() {
         return;
       }
 
-      // CREATE AUTH ACCOUNT
+      // CREATE FIREBASE AUTH ACCOUNT
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         email,
@@ -176,7 +178,9 @@ export default function Register() {
             disabled={loading}
             className="w-full bg-cyan-500 hover:bg-cyan-400 text-black font-bold py-4 rounded-2xl transition-all"
           >
-            {loading ? "CREATING ACCOUNT..." : "CREATE TECHNICIAN ACCOUNT"}
+            {loading
+              ? "CREATING ACCOUNT..."
+              : "CREATE TECHNICIAN ACCOUNT"}
           </button>
 
           <button
