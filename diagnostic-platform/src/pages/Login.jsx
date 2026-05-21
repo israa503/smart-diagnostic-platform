@@ -12,16 +12,23 @@ export default function Login() {
 
   const handleLogin = async () => {
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+
+      console.log(userCredential.user);
 
       if (isAdmin) {
         navigate("/factory-admin");
       } else {
         navigate("/dashboard");
       }
+
     } catch (error) {
-      alert("Invalid email or password");
       console.log(error);
+      alert(error.message);
     }
   };
 
@@ -29,7 +36,7 @@ export default function Login() {
     <div className="min-h-screen bg-black flex items-center justify-center p-4">
       <div className="w-full max-w-xl bg-[#11131d] rounded-3xl p-6 md:p-12">
 
-        <h1 className="text-5xl md:text-7xl font-bold text-cyan-400 leading-none">
+        <h1 className="text-5xl md:text-7xl font-bold text-cyan-400">
           Smart Diagnostic
         </h1>
 
