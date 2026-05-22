@@ -5,6 +5,192 @@ export default function FactorySettings() {
 
   const navigate = useNavigate();
 
+  const language =
+    localStorage.getItem('language')
+    || 'en';
+
+
+  const translations = {
+
+    en: {
+
+      technicianManagement:
+        'Technician Management',
+
+      globalAnalytics:
+        'Global Analytics',
+
+      factoryAI:
+        'Factory AI Assistant',
+
+      factorySettings:
+        'Factory Settings',
+
+      logout:
+        'Logout',
+
+      title:
+        'Factory Settings',
+
+      subtitle:
+        'Configure factory management system',
+
+      config:
+        'FACTORY CONFIG',
+
+      factoryName:
+        'Factory Name',
+
+      adminCode:
+        'Factory Admin Code',
+
+      notifications:
+        'Notifications',
+
+      notifDesc:
+        'Receive factory alerts',
+
+      aiMonitoring:
+        'AI Monitoring',
+
+      aiDesc:
+        'Enable factory AI supervision',
+
+      autoScan:
+        'Auto Scan',
+
+      autoDesc:
+        'Automatic diagnostic monitoring',
+
+      save:
+        'SAVE FACTORY SETTINGS',
+
+      success:
+        'Factory settings updated successfully'
+    },
+
+
+    fr: {
+
+      technicianManagement:
+        'Gestion Techniciens',
+
+      globalAnalytics:
+        'Analytiques Globales',
+
+      factoryAI:
+        'Assistant IA Usine',
+
+      factorySettings:
+        'Paramètres Usine',
+
+      logout:
+        'Déconnexion',
+
+      title:
+        'Paramètres Usine',
+
+      subtitle:
+        'Configurer le système usine',
+
+      config:
+        'CONFIG USINE',
+
+      factoryName:
+        'Nom Usine',
+
+      adminCode:
+        'Code Admin',
+
+      notifications:
+        'Notifications',
+
+      notifDesc:
+        'Recevoir alertes usine',
+
+      aiMonitoring:
+        'Surveillance IA',
+
+      aiDesc:
+        'Activer supervision IA',
+
+      autoScan:
+        'Scan Automatique',
+
+      autoDesc:
+        'Surveillance automatique',
+
+      save:
+        'ENREGISTRER PARAMÈTRES',
+
+      success:
+        'Paramètres enregistrés'
+    },
+
+
+    ar: {
+
+      technicianManagement:
+        'إدارة الفنيين',
+
+      globalAnalytics:
+        'التحليلات العامة',
+
+      factoryAI:
+        'مساعد المصنع الذكي',
+
+      factorySettings:
+        'إعدادات المصنع',
+
+      logout:
+        'تسجيل الخروج',
+
+      title:
+        'إعدادات المصنع',
+
+      subtitle:
+        'إعداد نظام إدارة المصنع',
+
+      config:
+        'إعدادات المصنع',
+
+      factoryName:
+        'اسم المصنع',
+
+      adminCode:
+        'رمز المدير',
+
+      notifications:
+        'الإشعارات',
+
+      notifDesc:
+        'استقبال تنبيهات المصنع',
+
+      aiMonitoring:
+        'مراقبة الذكاء',
+
+      aiDesc:
+        'تفعيل إشراف الذكاء الاصطناعي',
+
+      autoScan:
+        'الفحص التلقائي',
+
+      autoDesc:
+        'مراقبة تشخيص تلقائية',
+
+      save:
+        'حفظ الإعدادات',
+
+      success:
+        'تم حفظ الإعدادات بنجاح'
+    }
+
+  };
+
+
+  const t = translations[language];
+
+
   const [factoryName, setFactoryName] =
     useState(
       localStorage.getItem(
@@ -12,12 +198,14 @@ export default function FactorySettings() {
       ) || 'COFAT'
     );
 
+
   const [adminCode, setAdminCode] =
     useState(
       localStorage.getItem(
         'factoryAdminCode'
       ) || '1234'
     );
+
 
   const [notifications, setNotifications] =
     useState(
@@ -28,6 +216,7 @@ export default function FactorySettings() {
       ) ?? true
     );
 
+
   const [aiMonitoring, setAiMonitoring] =
     useState(
       JSON.parse(
@@ -36,6 +225,7 @@ export default function FactorySettings() {
         )
       ) ?? true
     );
+
 
   const [autoScan, setAutoScan] =
     useState(
@@ -74,9 +264,18 @@ export default function FactorySettings() {
       JSON.stringify(autoScan)
     );
 
-    alert(
-      'Factory settings updated successfully'
+    alert(t.success);
+
+  };
+
+
+  const handleLogout = () => {
+
+    localStorage.removeItem(
+      'isFactoryAdmin'
     );
+
+    navigate('/');
 
   };
 
@@ -85,7 +284,7 @@ export default function FactorySettings() {
 
     <div className="min-h-screen bg-black text-white flex">
 
-      <div className="w-80 bg-zinc-900 p-6 overflow-y-auto">
+      <div className="w-80 bg-zinc-900 p-6 overflow-y-auto hidden md:block">
 
         <h1 className="text-3xl font-bold text-cyan-400 mb-12">
           Factory Admin
@@ -100,7 +299,7 @@ export default function FactorySettings() {
             }
             className="w-full text-left bg-zinc-800 p-4 rounded-2xl"
           >
-            Technician Management
+            {t.technicianManagement}
           </button>
 
           <button
@@ -109,7 +308,7 @@ export default function FactorySettings() {
             }
             className="w-full text-left bg-zinc-800 p-4 rounded-2xl"
           >
-            Global Analytics
+            {t.globalAnalytics}
           </button>
 
           <button
@@ -118,26 +317,18 @@ export default function FactorySettings() {
             }
             className="w-full text-left bg-zinc-800 p-4 rounded-2xl"
           >
-            Factory AI Assistant
+            {t.factoryAI}
           </button>
 
           <button className="w-full text-left bg-cyan-500 text-black font-bold p-4 rounded-2xl">
-            Factory Settings
+            {t.factorySettings}
           </button>
 
           <button
-            onClick={() => {
-
-              localStorage.removeItem(
-                'isFactoryAdmin'
-              );
-
-              navigate('/');
-
-            }}
-            className="w-full text-left bg-red-500 text-black font-bold p-4 rounded-2xl"
+            onClick={handleLogout}
+            className="w-full bg-red-500 text-white font-bold p-4 rounded-2xl"
           >
-            Logout
+            {t.logout}
           </button>
 
         </div>
@@ -145,25 +336,25 @@ export default function FactorySettings() {
       </div>
 
 
-      <div className="flex-1 p-8 overflow-y-auto">
+      <div className="flex-1 p-4 md:p-8 overflow-y-auto">
 
-        <div className="flex justify-between items-center mb-10">
+        <div className="flex flex-col md:flex-row justify-between md:items-center gap-4 mb-10">
 
           <div>
 
-            <h1 className="text-5xl font-bold mb-3">
-              Factory Settings
+            <h1 className="text-4xl md:text-5xl font-bold mb-3">
+              {t.title}
             </h1>
 
             <p className="text-zinc-400">
-              Configure factory management system
+              {t.subtitle}
             </p>
 
           </div>
 
 
-          <div className="bg-cyan-500/20 border border-cyan-500 text-cyan-400 px-6 py-3 rounded-2xl font-bold">
-            FACTORY CONFIG
+          <div className="bg-cyan-500/20 border border-cyan-500 text-cyan-400 px-6 py-3 rounded-2xl font-bold text-center">
+            {t.config}
           </div>
 
         </div>
@@ -174,7 +365,7 @@ export default function FactorySettings() {
           <div className="bg-zinc-900 rounded-3xl p-8">
 
             <h2 className="text-2xl font-bold mb-4">
-              Factory Name
+              {t.factoryName}
             </h2>
 
             <input
@@ -193,7 +384,7 @@ export default function FactorySettings() {
           <div className="bg-zinc-900 rounded-3xl p-8">
 
             <h2 className="text-2xl font-bold mb-4">
-              Factory Admin Code
+              {t.adminCode}
             </h2>
 
             <input
@@ -214,11 +405,11 @@ export default function FactorySettings() {
             <div>
 
               <h2 className="text-2xl font-bold">
-                Notifications
+                {t.notifications}
               </h2>
 
               <p className="text-zinc-400 mt-2">
-                Receive factory alerts
+                {t.notifDesc}
               </p>
 
             </div>
@@ -246,11 +437,11 @@ export default function FactorySettings() {
             <div>
 
               <h2 className="text-2xl font-bold">
-                AI Monitoring
+                {t.aiMonitoring}
               </h2>
 
               <p className="text-zinc-400 mt-2">
-                Enable factory AI supervision
+                {t.aiDesc}
               </p>
 
             </div>
@@ -278,11 +469,11 @@ export default function FactorySettings() {
             <div>
 
               <h2 className="text-2xl font-bold">
-                Auto Scan
+                {t.autoScan}
               </h2>
 
               <p className="text-zinc-400 mt-2">
-                Automatic diagnostic monitoring
+                {t.autoDesc}
               </p>
 
             </div>
@@ -309,7 +500,7 @@ export default function FactorySettings() {
             onClick={saveSettings}
             className="w-full bg-cyan-500 hover:bg-cyan-400 transition text-black font-bold py-5 rounded-3xl text-xl"
           >
-            SAVE FACTORY SETTINGS
+            {t.save}
           </button>
 
         </div>
