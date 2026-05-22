@@ -5,21 +5,183 @@ export default function AIAssistant() {
 
   const navigate = useNavigate();
 
+  const language =
+    localStorage.getItem('language')
+    || 'en';
+
+
+  const translations = {
+
+    en: {
+
+      dashboard: 'Dashboard',
+      aiAssistant: 'AI Assistant',
+      analytics: 'Analytics',
+      diagnostic: 'Diagnostic',
+      history: 'History',
+      settings: 'Settings',
+      logout: 'LOGOUT',
+
+      title: 'AI Assistant',
+
+      subtitle:
+        'Intelligent industrial diagnostics',
+
+      online: 'ONLINE',
+
+      totalTests: 'Total Tests',
+      faults: 'Faults',
+      technician: 'Technician',
+      aiStatus: 'AI Status',
+
+      active: 'ACTIVE',
+
+      askPlaceholder:
+        'Ask about industrial diagnostics...',
+
+      send: 'SEND',
+
+      aiOnline:
+        'Industrial AI Diagnostic Assistant Online.',
+
+      restricted:
+`I am an Industrial AI Diagnostic Assistant.
+
+I only answer questions related to:
+
+• industrial systems
+• electrical diagnostics
+• PLC / ESP32 systems
+• machinery
+• automation
+• maintenance
+• sensors
+• electrical faults
+• factory equipment`
+    },
+
+
+    fr: {
+
+      dashboard: 'Tableau de bord',
+      aiAssistant: 'Assistant IA',
+      analytics: 'Analytiques',
+      diagnostic: 'Diagnostic',
+      history: 'Historique',
+      settings: 'Paramètres',
+      logout: 'DÉCONNEXION',
+
+      title: 'Assistant IA',
+
+      subtitle:
+        'Diagnostic industriel intelligent',
+
+      online: 'EN LIGNE',
+
+      totalTests: 'Tests Totaux',
+      faults: 'Défauts',
+      technician: 'Technicien',
+      aiStatus: 'Statut IA',
+
+      active: 'ACTIF',
+
+      askPlaceholder:
+        'Posez une question industrielle...',
+
+      send: 'ENVOYER',
+
+      aiOnline:
+        'Assistant IA industriel en ligne.',
+
+      restricted:
+`Je suis un assistant IA industriel.
+
+Je réponds uniquement aux questions concernant :
+
+• systèmes industriels
+• diagnostics électriques
+• PLC / ESP32
+• machines
+• automatisation
+• maintenance
+• capteurs
+• équipements industriels`
+    },
+
+
+    ar: {
+
+      dashboard: 'لوحة التحكم',
+      aiAssistant: 'المساعد الذكي',
+      analytics: 'التحليلات',
+      diagnostic: 'التشخيص',
+      history: 'السجل',
+      settings: 'الإعدادات',
+      logout: 'تسجيل الخروج',
+
+      title: 'المساعد الذكي',
+
+      subtitle:
+        'تشخيص صناعي ذكي',
+
+      online: 'متصل',
+
+      totalTests: 'عدد الاختبارات',
+      faults: 'الأعطال',
+      technician: 'الفني',
+      aiStatus: 'حالة الذكاء',
+
+      active: 'نشط',
+
+      askPlaceholder:
+        'اسأل عن الأعطال الصناعية...',
+
+      send: 'إرسال',
+
+      aiOnline:
+        'مساعد التشخيص الصناعي متصل.',
+
+      restricted:
+`أنا مساعد تشخيص صناعي ذكي.
+
+أجيب فقط على الأسئلة المتعلقة بـ :
+
+• الأنظمة الصناعية
+• الأعطال الكهربائية
+• PLC / ESP32
+• الآلات
+• الأتمتة
+• الصيانة
+• الحساسات
+• المعدات الصناعية`
+    }
+
+  };
+
+
+  const t = translations[language];
+
+
   const technicians =
     JSON.parse(
-      localStorage.getItem('technicians')
+      localStorage.getItem(
+        'technicians'
+      )
     ) || [];
+
 
   const currentTechEmail =
     localStorage.getItem(
       'currentTechnician'
     );
 
+
   const technician =
     technicians.find(
       (tech) =>
         tech.email === currentTechEmail
     );
+
 
   const history =
     technician?.history || [];
@@ -29,10 +191,10 @@ export default function AIAssistant() {
     useState([
       {
         role: 'assistant',
-        text:
-          'Industrial AI Diagnostic Assistant Online.'
+        text: t.aiOnline
       }
     ]);
+
 
   const [input, setInput] =
     useState('');
@@ -108,41 +270,8 @@ export default function AIAssistant() {
 
     if (!isIndustrialQuestion) {
 
-      return `
-I am an Industrial AI Diagnostic Assistant.
+      return t.restricted;
 
-I only answer questions related to:
-
-• industrial systems
-• electrical diagnostics
-• PLC / ESP32 systems
-• machinery
-• automation
-• maintenance
-• sensors
-• electrical faults
-• factory equipment
-`;
-    }
-
-
-    if (
-      lowerMessage.includes(
-        'short circuit'
-      )
-    ) {
-
-      return `
-Possible short circuit detected.
-
-Recommended actions:
-
-• inspect damaged wiring
-• verify insulation
-• disconnect overloaded devices
-• inspect PCB traces
-• test continuity with multimeter
-`;
     }
 
 
@@ -153,14 +282,13 @@ Recommended actions:
     ) {
 
       return `
-Motor diagnostic suggestions:
-
 • verify supply voltage
 • inspect bearings
 • check overheating
 • measure winding resistance
 • inspect vibration levels
 `;
+
     }
 
 
@@ -171,85 +299,29 @@ Motor diagnostic suggestions:
     ) {
 
       return `
-Sensor diagnostic steps:
-
 • verify sensor voltage
 • inspect signal wiring
 • test calibration
 • inspect communication protocol
 `;
+
     }
 
 
     if (
       lowerMessage.includes(
-        'voltage'
+        'short circuit'
       )
     ) {
 
       return `
-Voltage diagnostic recommendations:
-
-• verify power supply
-• inspect unstable voltage
-• check grounding
-• test power regulator
-• inspect fuse protection
-`;
-    }
-
-
-    if (
-      lowerMessage.includes(
-        'relay'
-      )
-    ) {
-
-      return `
-Relay troubleshooting:
-
-• inspect relay coil
-• verify switching voltage
-• inspect contact wear
+• inspect damaged wiring
+• verify insulation
+• disconnect overloaded devices
+• inspect PCB traces
 • test continuity
-• inspect overload conditions
 `;
-    }
 
-
-    if (
-      lowerMessage.includes(
-        'esp32'
-      )
-    ) {
-
-      return `
-ESP32 diagnostic suggestions:
-
-• verify COM port
-• inspect USB connection
-• verify firmware upload
-• inspect GPIO wiring
-• check power stability
-`;
-    }
-
-
-    if (
-      lowerMessage.includes(
-        'plc'
-      )
-    ) {
-
-      return `
-PLC troubleshooting recommendations:
-
-• verify input/output modules
-• inspect ladder logic
-• inspect communication lines
-• verify power supply
-• inspect emergency stop systems
-`;
     }
 
 
@@ -263,8 +335,8 @@ Recommended checks:
 • inspect sensors
 • verify continuity
 • inspect hardware connections
-• run diagnostic tests
 `;
+
   };
 
 
@@ -323,11 +395,11 @@ Recommended checks:
             }
             className="w-full text-left bg-zinc-800 p-4 rounded-2xl"
           >
-            Dashboard
+            {t.dashboard}
           </button>
 
           <button className="w-full text-left bg-cyan-500 text-black font-bold p-4 rounded-2xl">
-            AI Assistant
+            {t.aiAssistant}
           </button>
 
           <button
@@ -336,7 +408,7 @@ Recommended checks:
             }
             className="w-full text-left bg-zinc-800 p-4 rounded-2xl"
           >
-            Analytics
+            {t.analytics}
           </button>
 
           <button
@@ -345,7 +417,7 @@ Recommended checks:
             }
             className="w-full text-left bg-zinc-800 p-4 rounded-2xl"
           >
-            Diagnostic
+            {t.diagnostic}
           </button>
 
           <button
@@ -354,7 +426,7 @@ Recommended checks:
             }
             className="w-full text-left bg-zinc-800 p-4 rounded-2xl"
           >
-            History
+            {t.history}
           </button>
 
           <button
@@ -363,14 +435,14 @@ Recommended checks:
             }
             className="w-full text-left bg-zinc-800 p-4 rounded-2xl"
           >
-            Settings
+            {t.settings}
           </button>
 
           <button
             onClick={handleLogout}
             className="w-full bg-red-500 text-white font-bold p-4 rounded-2xl"
           >
-            LOGOUT
+            {t.logout}
           </button>
 
         </div>
@@ -385,18 +457,18 @@ Recommended checks:
           <div>
 
             <h1 className="text-4xl md:text-5xl font-bold mb-3">
-              AI Assistant
+              {t.title}
             </h1>
 
             <p className="text-zinc-400">
-              Intelligent industrial diagnostics
+              {t.subtitle}
             </p>
 
           </div>
 
 
           <div className="bg-green-500 text-black px-6 py-3 rounded-2xl font-bold">
-            ONLINE
+            {t.online}
           </div>
 
         </div>
@@ -407,7 +479,7 @@ Recommended checks:
           <div className="bg-zinc-900 p-6 rounded-3xl">
 
             <h3 className="text-zinc-400 mb-3">
-              Total Tests
+              {t.totalTests}
             </h3>
 
             <p className="text-4xl font-bold text-cyan-400">
@@ -420,7 +492,7 @@ Recommended checks:
           <div className="bg-zinc-900 p-6 rounded-3xl">
 
             <h3 className="text-zinc-400 mb-3">
-              Faults
+              {t.faults}
             </h3>
 
             <p className="text-4xl font-bold text-red-400">
@@ -442,7 +514,7 @@ Recommended checks:
           <div className="bg-zinc-900 p-6 rounded-3xl">
 
             <h3 className="text-zinc-400 mb-3">
-              Technician
+              {t.technician}
             </h3>
 
             <p className="text-2xl font-bold text-green-400">
@@ -455,11 +527,11 @@ Recommended checks:
           <div className="bg-zinc-900 p-6 rounded-3xl">
 
             <h3 className="text-zinc-400 mb-3">
-              AI Status
+              {t.aiStatus}
             </h3>
 
             <p className="text-3xl font-bold text-green-400">
-              ACTIVE
+              {t.active}
             </p>
 
           </div>
@@ -494,7 +566,7 @@ Recommended checks:
             onChange={(e) =>
               setInput(e.target.value)
             }
-            placeholder="Ask about industrial diagnostics..."
+            placeholder={t.askPlaceholder}
             className="flex-1 bg-zinc-900 p-5 rounded-2xl outline-none"
           />
 
@@ -502,7 +574,7 @@ Recommended checks:
             onClick={sendMessage}
             className="bg-cyan-500 hover:bg-cyan-400 transition text-black font-bold px-8 rounded-2xl"
           >
-            SEND
+            {t.send}
           </button>
 
         </div>
