@@ -43,24 +43,6 @@ export default function Settings() {
       newPassword:
         'New Password',
 
-      autoScan:
-        'Auto Scan',
-
-      autoScanDesc:
-        'Automatic cable detection',
-
-      aiMonitoring:
-        'AI Monitoring',
-
-      aiMonitoringDesc:
-        'Enable AI diagnostics',
-
-      notifications:
-        'Notifications',
-
-      notificationsDesc:
-        'Receive alerts',
-
       save:
         'SAVE SETTINGS',
 
@@ -113,24 +95,6 @@ export default function Settings() {
       newPassword:
         'Nouveau mot de passe',
 
-      autoScan:
-        'Scan Automatique',
-
-      autoScanDesc:
-        'Détection automatique câble',
-
-      aiMonitoring:
-        'Surveillance IA',
-
-      aiMonitoringDesc:
-        'Activer diagnostics IA',
-
-      notifications:
-        'Notifications',
-
-      notificationsDesc:
-        'Recevoir alertes',
-
       save:
         'ENREGISTRER',
 
@@ -182,24 +146,6 @@ export default function Settings() {
 
       newPassword:
         'كلمة مرور جديدة',
-
-      autoScan:
-        'الفحص التلقائي',
-
-      autoScanDesc:
-        'كشف الكابلات تلقائياً',
-
-      aiMonitoring:
-        'مراقبة الذكاء',
-
-      aiMonitoringDesc:
-        'تفعيل تشخيص الذكاء',
-
-      notifications:
-        'الإشعارات',
-
-      notificationsDesc:
-        'استقبال التنبيهات',
 
       save:
         'حفظ الإعدادات',
@@ -260,45 +206,6 @@ export default function Settings() {
     useState('');
 
 
-  const [autoScan,
-    setAutoScan] =
-    useState(
-
-      JSON.parse(
-        localStorage.getItem(
-          'autoScan'
-        )
-      ) ?? true
-
-    );
-
-
-  const [aiMonitoring,
-    setAiMonitoring] =
-    useState(
-
-      JSON.parse(
-        localStorage.getItem(
-          'aiMonitoring'
-        )
-      ) ?? true
-
-    );
-
-
-  const [notifications,
-    setNotifications] =
-    useState(
-
-      JSON.parse(
-        localStorage.getItem(
-          'notifications'
-        )
-      ) ?? true
-
-    );
-
-
   const handleLogout = () => {
 
     localStorage.removeItem(
@@ -323,30 +230,6 @@ export default function Settings() {
     localStorage.setItem(
       'language',
       language
-    );
-
-
-    localStorage.setItem(
-      'autoScan',
-      JSON.stringify(
-        autoScan
-      )
-    );
-
-
-    localStorage.setItem(
-      'aiMonitoring',
-      JSON.stringify(
-        aiMonitoring
-      )
-    );
-
-
-    localStorage.setItem(
-      'notifications',
-      JSON.stringify(
-        notifications
-      )
     );
 
 
@@ -399,7 +282,7 @@ export default function Settings() {
     );
 
 
-    window.location.reload();
+    navigate('/dashboard');
 
   };
 
@@ -590,6 +473,5 @@ export default function Settings() {
       </div>
 
     </div>
-
   );
 }
