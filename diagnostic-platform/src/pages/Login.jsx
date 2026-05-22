@@ -7,9 +7,120 @@ export default function Login() {
 
   const navigate = useNavigate();
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [isAdmin, setIsAdmin] = useState(false);
+  const language =
+    localStorage.getItem('language')
+    || 'en';
+
+
+  const translations = {
+
+    en: {
+
+      title:
+        'Smart Diagnostic',
+
+      subtitle:
+        'Industrial AI Diagnostic Platform',
+
+      email:
+        'Technician Email',
+
+      password:
+        'Password',
+
+      admin:
+        'I am Factory Admin',
+
+      login:
+        'LOGIN',
+
+      create:
+        'CREATE TECHNICIAN ACCOUNT',
+
+      success:
+        'Login successful',
+
+      error:
+        'Invalid email or password'
+    },
+
+
+    fr: {
+
+      title:
+        'Smart Diagnostic',
+
+      subtitle:
+        'Plateforme IA Industrielle',
+
+      email:
+        'Email Technicien',
+
+      password:
+        'Mot de passe',
+
+      admin:
+        'Je suis Admin Usine',
+
+      login:
+        'CONNEXION',
+
+      create:
+        'CRÉER COMPTE TECHNICIEN',
+
+      success:
+        'Connexion réussie',
+
+      error:
+        'Email ou mot de passe invalide'
+    },
+
+
+    ar: {
+
+      title:
+        'Smart Diagnostic',
+
+      subtitle:
+        'منصة التشخيص الصناعي الذكية',
+
+      email:
+        'بريد الفني',
+
+      password:
+        'كلمة المرور',
+
+      admin:
+        'أنا مدير المصنع',
+
+      login:
+        'تسجيل الدخول',
+
+      create:
+        'إنشاء حساب فني',
+
+      success:
+        'تم تسجيل الدخول',
+
+      error:
+        'البريد أو كلمة المرور خاطئة'
+    }
+
+  };
+
+
+  const t = translations[language];
+
+
+  const [email, setEmail] =
+    useState('');
+
+  const [password, setPassword] =
+    useState('');
+
+  const [isAdmin, setIsAdmin] =
+    useState(false);
+
 
   const handleLogin = async () => {
 
@@ -21,45 +132,56 @@ export default function Login() {
         password
       );
 
+
       if (isAdmin) {
 
         localStorage.setItem(
-          "isFactoryAdmin",
-          "true"
+          'isFactoryAdmin',
+          'true'
         );
 
-        navigate("/factory-admin");
+        navigate('/factory-admin');
 
       } else {
 
         localStorage.setItem(
-          "isLoggedIn",
-          "true"
+          'isLoggedIn',
+          'true'
         );
 
-        navigate("/dashboard");
+        localStorage.setItem(
+          'currentTechnician',
+          email.trim()
+        );
+
+        navigate('/dashboard');
       }
 
     } catch (error) {
 
       console.log(error);
-      alert(error.message);
+
+      alert(t.error);
+
     }
+
   };
+
 
   return (
 
     <div className="min-h-screen bg-black flex items-center justify-center p-4">
 
-      <div className="w-full max-w-xl bg-[#11131d] rounded-3xl p-6 md:p-12">
+      <div className="w-full max-w-xl bg-[#11131d] rounded-3xl p-6 md:p-12 border border-zinc-800">
 
         <h1 className="text-5xl md:text-7xl font-bold text-cyan-400">
-          Smart Diagnostic
+          {t.title}
         </h1>
 
         <p className="text-gray-400 mt-4 text-lg">
-          Industrial AI Diagnostic Platform
+          {t.subtitle}
         </p>
+
 
         <div className="mt-10 space-y-6">
 
@@ -67,27 +189,35 @@ export default function Login() {
             type="email"
             value={email}
             onChange={(e) =>
-              setEmail(e.target.value.trim())
+              setEmail(
+                e.target.value
+              )
             }
-            placeholder="Technician Email"
+            placeholder={t.email}
             autoComplete="email"
-            className="w-full bg-[#23232b] text-white p-5 rounded-2xl outline-none"
+            className="w-full bg-[#23232b] text-white p-5 rounded-2xl outline-none border border-zinc-700"
           />
+
 
           <input
             type="password"
             value={password}
             onChange={(e) =>
-              setPassword(e.target.value)
+              setPassword(
+                e.target.value
+              )
             }
-            placeholder="Password"
+            placeholder={t.password}
             autoComplete="current-password"
-            className="w-full bg-[#23232b] text-white p-5 rounded-2xl outline-none"
+            className="w-full bg-[#23232b] text-white p-5 rounded-2xl outline-none border border-zinc-700"
           />
 
-          <div className="w-full bg-[#23232b] text-white p-5 rounded-2xl flex justify-between items-center">
 
-            <span>I am Factory Admin</span>
+          <div className="w-full bg-[#23232b] text-white p-5 rounded-2xl flex justify-between items-center border border-zinc-700">
+
+            <span>
+              {t.admin}
+            </span>
 
             <input
               type="checkbox"
@@ -100,22 +230,24 @@ export default function Login() {
 
           </div>
 
+
           <button
             type="button"
             onClick={handleLogin}
-            className="w-full bg-cyan-500 hover:bg-cyan-400 text-black font-bold py-5 rounded-2xl"
+            className="w-full bg-cyan-500 hover:bg-cyan-400 transition text-black font-bold py-5 rounded-2xl text-lg"
           >
-            LOGIN
+            {t.login}
           </button>
+
 
           <button
             type="button"
             onClick={() =>
-              navigate("/register")
+              navigate('/register')
             }
-            className="w-full bg-[#23232b] text-white py-5 rounded-2xl"
+            className="w-full bg-[#23232b] hover:bg-zinc-700 transition text-white py-5 rounded-2xl border border-zinc-700"
           >
-            CREATE TECHNICIAN ACCOUNT
+            {t.create}
           </button>
 
         </div>
@@ -123,5 +255,6 @@ export default function Login() {
       </div>
 
     </div>
+
   );
 }
