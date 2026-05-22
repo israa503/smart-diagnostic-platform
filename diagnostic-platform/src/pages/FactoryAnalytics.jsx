@@ -4,9 +4,242 @@ export default function FactoryAnalytics() {
 
   const navigate = useNavigate();
 
+  const language =
+    localStorage.getItem('language')
+    || 'en';
+
+
+  const translations = {
+
+    en: {
+
+      technicianManagement:
+        'Technician Management',
+
+      globalAnalytics:
+        'Global Analytics',
+
+      factoryAI:
+        'Factory AI Assistant',
+
+      factorySettings:
+        'Factory Settings',
+
+      logout:
+        'Logout',
+
+      title:
+        'Global Factory Analytics',
+
+      subtitle:
+        'Real-time factory statistics',
+
+      liveData:
+        'LIVE FACTORY DATA',
+
+      technicians:
+        'Technicians',
+
+      totalTests:
+        'Total Tests',
+
+      totalFaults:
+        'Total Faults',
+
+      successRate:
+        'Success Rate',
+
+      aiEvaluation:
+        'Factory AI Evaluation',
+
+      excellent:
+        'Factory diagnostic performance is excellent.',
+
+      optimize:
+        'Factory performance needs optimization.',
+
+      activeTechs:
+        'Active technicians',
+
+      diagnosticsExecuted:
+        'Total diagnostics executed',
+
+      topTech:
+        'Top Technician',
+
+      name:
+        'Name',
+
+      tests:
+        'Tests',
+
+      faults:
+        'Faults',
+
+      noTech:
+        'No technicians available',
+
+      overview:
+        'Technicians Overview'
+    },
+
+
+    fr: {
+
+      technicianManagement:
+        'Gestion Techniciens',
+
+      globalAnalytics:
+        'Analytiques Globales',
+
+      factoryAI:
+        'Assistant IA Usine',
+
+      factorySettings:
+        'Paramètres Usine',
+
+      logout:
+        'Déconnexion',
+
+      title:
+        'Analytiques Globales',
+
+      subtitle:
+        'Statistiques usine en temps réel',
+
+      liveData:
+        'DONNÉES USINE',
+
+      technicians:
+        'Techniciens',
+
+      totalTests:
+        'Tests Totaux',
+
+      totalFaults:
+        'Défauts Totaux',
+
+      successRate:
+        'Taux de Réussite',
+
+      aiEvaluation:
+        'Évaluation IA Usine',
+
+      excellent:
+        'Les performances sont excellentes.',
+
+      optimize:
+        'Les performances doivent être optimisées.',
+
+      activeTechs:
+        'Techniciens actifs',
+
+      diagnosticsExecuted:
+        'Diagnostics exécutés',
+
+      topTech:
+        'Meilleur Technicien',
+
+      name:
+        'Nom',
+
+      tests:
+        'Tests',
+
+      faults:
+        'Défauts',
+
+      noTech:
+        'Aucun technicien disponible',
+
+      overview:
+        'Vue des Techniciens'
+    },
+
+
+    ar: {
+
+      technicianManagement:
+        'إدارة الفنيين',
+
+      globalAnalytics:
+        'التحليلات العامة',
+
+      factoryAI:
+        'مساعد المصنع الذكي',
+
+      factorySettings:
+        'إعدادات المصنع',
+
+      logout:
+        'تسجيل الخروج',
+
+      title:
+        'تحليلات المصنع العامة',
+
+      subtitle:
+        'إحصائيات المصنع المباشرة',
+
+      liveData:
+        'بيانات المصنع',
+
+      technicians:
+        'الفنيون',
+
+      totalTests:
+        'عدد الاختبارات',
+
+      totalFaults:
+        'عدد الأعطال',
+
+      successRate:
+        'نسبة النجاح',
+
+      aiEvaluation:
+        'تقييم الذكاء الاصطناعي',
+
+      excellent:
+        'أداء المصنع ممتاز.',
+
+      optimize:
+        'المصنع يحتاج تحسين.',
+
+      activeTechs:
+        'الفنيون النشطون',
+
+      diagnosticsExecuted:
+        'إجمالي التشخيصات',
+
+      topTech:
+        'أفضل فني',
+
+      name:
+        'الاسم',
+
+      tests:
+        'الاختبارات',
+
+      faults:
+        'الأعطال',
+
+      noTech:
+        'لا يوجد فنيون',
+
+      overview:
+        'نظرة عامة على الفنيين'
+    }
+
+  };
+
+
+  const t = translations[language];
+
+
   const technicians =
     JSON.parse(
-      localStorage.getItem('technicians')
+      localStorage.getItem(
+        'technicians'
+      )
     ) || [];
 
 
@@ -64,11 +297,22 @@ export default function FactoryAnalytics() {
     );
 
 
+  const handleLogout = () => {
+
+    localStorage.removeItem(
+      'isFactoryAdmin'
+    );
+
+    navigate('/');
+
+  };
+
+
   return (
 
     <div className="min-h-screen bg-black text-white flex">
 
-      <div className="w-80 bg-zinc-900 p-6 overflow-y-auto">
+      <div className="w-80 bg-zinc-900 p-6 overflow-y-auto hidden md:block">
 
         <h1 className="text-3xl font-bold text-cyan-400 mb-12">
           Factory Admin
@@ -82,11 +326,11 @@ export default function FactoryAnalytics() {
             }
             className="w-full text-left bg-zinc-800 p-4 rounded-2xl"
           >
-            Technician Management
+            {t.technicianManagement}
           </button>
 
           <button className="w-full text-left bg-cyan-500 text-black font-bold p-4 rounded-2xl">
-            Global Analytics
+            {t.globalAnalytics}
           </button>
 
           <button
@@ -95,7 +339,7 @@ export default function FactoryAnalytics() {
             }
             className="w-full text-left bg-zinc-800 p-4 rounded-2xl"
           >
-            Factory AI Assistant
+            {t.factoryAI}
           </button>
 
           <button
@@ -104,22 +348,14 @@ export default function FactoryAnalytics() {
             }
             className="w-full text-left bg-zinc-800 p-4 rounded-2xl"
           >
-            Factory Settings
+            {t.factorySettings}
           </button>
 
           <button
-            onClick={() => {
-
-              localStorage.removeItem(
-                'isFactoryAdmin'
-              );
-
-              navigate('/');
-
-            }}
-            className="w-full text-left bg-red-500 text-black font-bold p-4 rounded-2xl"
+            onClick={handleLogout}
+            className="w-full bg-red-500 text-white font-bold p-4 rounded-2xl"
           >
-            Logout
+            {t.logout}
           </button>
 
         </div>
@@ -127,39 +363,39 @@ export default function FactoryAnalytics() {
       </div>
 
 
-      <div className="flex-1 p-8 overflow-y-auto">
+      <div className="flex-1 p-4 md:p-8 overflow-y-auto">
 
-        <div className="flex justify-between items-center mb-10">
+        <div className="flex flex-col md:flex-row justify-between md:items-center gap-4 mb-10">
 
           <div>
 
-            <h1 className="text-5xl font-bold mb-3">
-              Global Factory Analytics
+            <h1 className="text-4xl md:text-5xl font-bold mb-3">
+              {t.title}
             </h1>
 
             <p className="text-zinc-400">
-              Real-time factory statistics
+              {t.subtitle}
             </p>
 
           </div>
 
 
-          <div className="bg-cyan-500/20 border border-cyan-500 text-cyan-400 px-6 py-3 rounded-2xl font-bold">
-            LIVE FACTORY DATA
+          <div className="bg-cyan-500/20 border border-cyan-500 text-cyan-400 px-6 py-3 rounded-2xl font-bold text-center">
+            {t.liveData}
           </div>
 
         </div>
 
 
-        <div className="grid grid-cols-4 gap-6 mb-10">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-10">
 
           <div className="bg-zinc-900 p-8 rounded-3xl">
 
             <h3 className="text-zinc-400 mb-4">
-              Technicians
+              {t.technicians}
             </h3>
 
-            <p className="text-6xl font-bold text-cyan-400">
+            <p className="text-5xl md:text-6xl font-bold text-cyan-400">
               {technicians.length}
             </p>
 
@@ -169,10 +405,10 @@ export default function FactoryAnalytics() {
           <div className="bg-zinc-900 p-8 rounded-3xl">
 
             <h3 className="text-zinc-400 mb-4">
-              Total Tests
+              {t.totalTests}
             </h3>
 
-            <p className="text-6xl font-bold text-green-400">
+            <p className="text-5xl md:text-6xl font-bold text-green-400">
               {totalTests}
             </p>
 
@@ -182,10 +418,10 @@ export default function FactoryAnalytics() {
           <div className="bg-zinc-900 p-8 rounded-3xl">
 
             <h3 className="text-zinc-400 mb-4">
-              Total Faults
+              {t.totalFaults}
             </h3>
 
-            <p className="text-6xl font-bold text-red-400">
+            <p className="text-5xl md:text-6xl font-bold text-red-400">
               {totalFaults}
             </p>
 
@@ -195,10 +431,10 @@ export default function FactoryAnalytics() {
           <div className="bg-zinc-900 p-8 rounded-3xl">
 
             <h3 className="text-zinc-400 mb-4">
-              Success Rate
+              {t.successRate}
             </h3>
 
-            <p className="text-6xl font-bold text-yellow-400">
+            <p className="text-5xl md:text-6xl font-bold text-yellow-400">
               {successRate}%
             </p>
 
@@ -207,12 +443,12 @@ export default function FactoryAnalytics() {
         </div>
 
 
-        <div className="grid grid-cols-2 gap-8 mb-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
 
           <div className="bg-zinc-900 rounded-3xl p-8">
 
             <h2 className="text-3xl font-bold mb-8">
-              Factory AI Evaluation
+              {t.aiEvaluation}
             </h2>
 
             <div className="space-y-5">
@@ -220,14 +456,15 @@ export default function FactoryAnalytics() {
               <div className="bg-zinc-800 p-5 rounded-2xl">
 
                 {successRate >= 90
-                  ? 'Factory diagnostic performance is excellent.'
-                  : 'Factory performance needs optimization.'}
+                  ? t.excellent
+                  : t.optimize}
 
               </div>
 
               <div className="bg-zinc-800 p-5 rounded-2xl">
 
-                Active technicians:
+                {t.activeTechs}
+                :
                 {' '}
                 {activeTechnicians}
 
@@ -235,7 +472,8 @@ export default function FactoryAnalytics() {
 
               <div className="bg-zinc-800 p-5 rounded-2xl">
 
-                Total diagnostics executed:
+                {t.diagnosticsExecuted}
+                :
                 {' '}
                 {totalTests}
 
@@ -249,7 +487,7 @@ export default function FactoryAnalytics() {
           <div className="bg-zinc-900 rounded-3xl p-8">
 
             <h2 className="text-3xl font-bold mb-8">
-              Top Technician
+              {t.topTech}
             </h2>
 
             {bestTechnician ? (
@@ -257,27 +495,15 @@ export default function FactoryAnalytics() {
               <div className="space-y-5">
 
                 <div className="bg-zinc-800 p-5 rounded-2xl">
-
-                  Name:
-                  {' '}
-                  {bestTechnician.name}
-
+                  {t.name}: {bestTechnician.name}
                 </div>
 
                 <div className="bg-zinc-800 p-5 rounded-2xl">
-
-                  Tests:
-                  {' '}
-                  {bestTechnician.tests}
-
+                  {t.tests}: {bestTechnician.tests}
                 </div>
 
                 <div className="bg-zinc-800 p-5 rounded-2xl">
-
-                  Faults:
-                  {' '}
-                  {bestTechnician.faults}
-
+                  {t.faults}: {bestTechnician.faults}
                 </div>
 
               </div>
@@ -285,9 +511,7 @@ export default function FactoryAnalytics() {
             ) : (
 
               <div className="bg-zinc-800 p-5 rounded-2xl">
-
-                No technicians available
-
+                {t.noTech}
               </div>
 
             )}
@@ -300,7 +524,7 @@ export default function FactoryAnalytics() {
         <div className="bg-zinc-900 rounded-3xl p-8">
 
           <h2 className="text-3xl font-bold mb-8">
-            Technicians Overview
+            {t.overview}
           </h2>
 
           <div className="space-y-5">
@@ -309,7 +533,7 @@ export default function FactoryAnalytics() {
 
               <div
                 key={index}
-                className="bg-zinc-800 p-5 rounded-2xl flex justify-between items-center"
+                className="bg-zinc-800 p-5 rounded-2xl flex flex-col md:flex-row justify-between md:items-center gap-4"
               >
 
                 <div>
@@ -325,14 +549,14 @@ export default function FactoryAnalytics() {
                 </div>
 
 
-                <div className="text-right">
+                <div className="text-left md:text-right">
 
                   <p className="text-cyan-400 font-bold">
-                    Tests: {tech.tests}
+                    {t.tests}: {tech.tests}
                   </p>
 
                   <p className="text-red-400">
-                    Faults: {tech.faults}
+                    {t.faults}: {tech.faults}
                   </p>
 
                 </div>
