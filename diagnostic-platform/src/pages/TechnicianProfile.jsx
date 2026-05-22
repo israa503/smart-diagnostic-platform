@@ -1,16 +1,306 @@
 import {
   useNavigate,
   useLocation
-} from 'react-router-dom';
+}
+from 'react-router-dom';
 
 export default function TechnicianProfile() {
 
-  const navigate = useNavigate();
+  const navigate =
+    useNavigate();
 
-  const location = useLocation();
+  const location =
+    useLocation();
 
   const technician =
     location.state?.technician;
+
+
+  const language =
+    localStorage.getItem(
+      'language'
+    ) || 'en';
+
+
+  const translations = {
+
+    en: {
+
+      technicianManagement:
+        'Technician Management',
+
+      globalAnalytics:
+        'Global Analytics',
+
+      factoryAI:
+        'Factory AI Assistant',
+
+      factorySettings:
+        'Factory Settings',
+
+      logout:
+        'Logout',
+
+      noTech:
+        'No Technician Selected',
+
+      title:
+        'Technician Profile',
+
+      subtitle:
+        'Real technician diagnostics data',
+
+      totalTests:
+        'Total Tests',
+
+      faults:
+        'Faults',
+
+      successRate:
+        'Success Rate',
+
+      aiRating:
+        'AI Rating',
+
+      excellent:
+        'EXCELLENT',
+
+      good:
+        'GOOD',
+
+      technicianInfo:
+        'Technician Information',
+
+      name:
+        'Name',
+
+      technicianId:
+        'Technician ID',
+
+      email:
+        'Email',
+
+      status:
+        'Status',
+
+      aiEvaluation:
+        'AI Evaluation',
+
+      frequent:
+        'Frequent faults detected.',
+
+      normal:
+        'Fault activity within normal range.',
+
+      performance:
+        'Excellent diagnostic performance.',
+
+      improve:
+        'Performance improvement recommended.',
+
+      diagnostics:
+        'Total diagnostics',
+
+      realHistory:
+        'Real Diagnostic History',
+
+      noHistory:
+        'No diagnostic history available',
+
+      fault:
+        'FAULT',
+
+      pass:
+        'PASS'
+    },
+
+
+    fr: {
+
+      technicianManagement:
+        'Gestion Techniciens',
+
+      globalAnalytics:
+        'Analytiques Globales',
+
+      factoryAI:
+        'Assistant IA Usine',
+
+      factorySettings:
+        'Paramètres Usine',
+
+      logout:
+        'Déconnexion',
+
+      noTech:
+        'Aucun technicien sélectionné',
+
+      title:
+        'Profil Technicien',
+
+      subtitle:
+        'Données diagnostics réelles',
+
+      totalTests:
+        'Tests Totaux',
+
+      faults:
+        'Défauts',
+
+      successRate:
+        'Taux de Réussite',
+
+      aiRating:
+        'Évaluation IA',
+
+      excellent:
+        'EXCELLENT',
+
+      good:
+        'BON',
+
+      technicianInfo:
+        'Informations Technicien',
+
+      name:
+        'Nom',
+
+      technicianId:
+        'ID Technicien',
+
+      email:
+        'Email',
+
+      status:
+        'Statut',
+
+      aiEvaluation:
+        'Évaluation IA',
+
+      frequent:
+        'Défauts fréquents détectés.',
+
+      normal:
+        'Activité défaut normale.',
+
+      performance:
+        'Performance excellente.',
+
+      improve:
+        'Amélioration recommandée.',
+
+      diagnostics:
+        'Diagnostics totaux',
+
+      realHistory:
+        'Historique Réel',
+
+      noHistory:
+        'Aucun historique disponible',
+
+      fault:
+        'DÉFAUT',
+
+      pass:
+        'PASSÉ'
+    },
+
+
+    ar: {
+
+      technicianManagement:
+        'إدارة الفنيين',
+
+      globalAnalytics:
+        'التحليلات العامة',
+
+      factoryAI:
+        'مساعد المصنع الذكي',
+
+      factorySettings:
+        'إعدادات المصنع',
+
+      logout:
+        'تسجيل الخروج',
+
+      noTech:
+        'لم يتم اختيار فني',
+
+      title:
+        'ملف الفني',
+
+      subtitle:
+        'بيانات التشخيص الحقيقية',
+
+      totalTests:
+        'عدد الاختبارات',
+
+      faults:
+        'الأعطال',
+
+      successRate:
+        'نسبة النجاح',
+
+      aiRating:
+        'تقييم الذكاء',
+
+      excellent:
+        'ممتاز',
+
+      good:
+        'جيد',
+
+      technicianInfo:
+        'معلومات الفني',
+
+      name:
+        'الاسم',
+
+      technicianId:
+        'رقم الفني',
+
+      email:
+        'البريد الإلكتروني',
+
+      status:
+        'الحالة',
+
+      aiEvaluation:
+        'تقييم الذكاء',
+
+      frequent:
+        'تم اكتشاف أعطال متكررة.',
+
+      normal:
+        'نشاط الأعطال طبيعي.',
+
+      performance:
+        'أداء التشخيص ممتاز.',
+
+      improve:
+        'يوصى بتحسين الأداء.',
+
+      diagnostics:
+        'إجمالي التشخيصات',
+
+      realHistory:
+        'السجل الحقيقي',
+
+      noHistory:
+        'لا يوجد سجل تشخيص',
+
+      fault:
+        'عطل',
+
+      pass:
+        'نجاح'
+    }
+
+  };
+
+
+  const t =
+    translations[language];
 
 
   if (!technician) {
@@ -20,7 +310,7 @@ export default function TechnicianProfile() {
       <div className="min-h-screen bg-black text-white flex items-center justify-center">
 
         <h1 className="text-4xl font-bold">
-          No Technician Selected
+          {t.noTech}
         </h1>
 
       </div>
@@ -36,28 +326,49 @@ export default function TechnicianProfile() {
   const faults =
     history.filter(
       (item) =>
-        item.result.includes('SHORT') ||
-        item.result.includes('FAULT') ||
-        item.result.includes('NC')
+        item.result.includes(
+          'SHORT'
+        ) ||
+        item.result.includes(
+          'FAULT'
+        ) ||
+        item.result.includes(
+          'NC'
+        )
     ).length;
 
 
   const successRate =
     history.length > 0
+
       ? Math.round(
+
           (
             (history.length - faults) /
             history.length
           ) * 100
+
         )
+
       : 100;
+
+
+  const handleLogout = () => {
+
+    localStorage.removeItem(
+      'isFactoryAdmin'
+    );
+
+    navigate('/');
+
+  };
 
 
   return (
 
     <div className="min-h-screen bg-black text-white flex">
 
-      <div className="w-80 bg-zinc-900 p-6 overflow-y-auto">
+      <div className="w-80 bg-zinc-900 p-6 overflow-y-auto hidden md:block">
 
         <h1 className="text-3xl font-bold text-cyan-400 mb-12">
           Factory Admin
@@ -68,53 +379,57 @@ export default function TechnicianProfile() {
 
           <button
             onClick={() =>
-              navigate('/factory-admin')
+              navigate(
+                '/factory-admin'
+              )
             }
             className="w-full text-left bg-zinc-800 p-4 rounded-2xl"
           >
-            Technician Management
+            {t.technicianManagement}
           </button>
+
 
           <button
             onClick={() =>
-              navigate('/factory-analytics')
+              navigate(
+                '/factory-analytics'
+              )
             }
             className="w-full text-left bg-zinc-800 p-4 rounded-2xl"
           >
-            Global Analytics
+            {t.globalAnalytics}
           </button>
+
 
           <button
             onClick={() =>
-              navigate('/factory-ai')
+              navigate(
+                '/factory-ai'
+              )
             }
             className="w-full text-left bg-zinc-800 p-4 rounded-2xl"
           >
-            Factory AI Assistant
+            {t.factoryAI}
           </button>
+
 
           <button
             onClick={() =>
-              navigate('/factory-settings')
+              navigate(
+                '/factory-settings'
+              )
             }
             className="w-full text-left bg-zinc-800 p-4 rounded-2xl"
           >
-            Factory Settings
+            {t.factorySettings}
           </button>
 
+
           <button
-            onClick={() => {
-
-              localStorage.removeItem(
-                'isFactoryAdmin'
-              );
-
-              navigate('/');
-
-            }}
-            className="w-full text-left bg-red-500 text-black font-bold p-4 rounded-2xl"
+            onClick={handleLogout}
+            className="w-full bg-red-500 text-black font-bold p-4 rounded-2xl"
           >
-            Logout
+            {t.logout}
           </button>
 
         </div>
@@ -122,43 +437,46 @@ export default function TechnicianProfile() {
       </div>
 
 
-      <div className="flex-1 p-8 overflow-y-auto">
+      <div className="flex-1 p-4 md:p-8 overflow-y-auto">
 
-        <div className="flex justify-between items-center mb-10">
+        <div className="flex flex-col md:flex-row justify-between md:items-center gap-4 mb-10">
 
           <div>
 
-            <h1 className="text-5xl font-bold mb-3">
-              Technician Profile
+            <h1 className="text-4xl md:text-5xl font-bold mb-3">
+              {t.title}
             </h1>
 
             <p className="text-zinc-400">
-              Real technician diagnostics data
+              {t.subtitle}
             </p>
 
           </div>
 
 
-          <div className={`px-6 py-3 rounded-2xl font-bold ${
-            technician.status === 'ACTIVE'
+          <div className={`px-6 py-3 rounded-2xl font-bold text-center ${
+            technician.status ===
+            'ACTIVE'
               ? 'bg-green-500 text-black'
               : 'bg-red-500 text-black'
           }`}>
+
             {technician.status}
+
           </div>
 
         </div>
 
 
-        <div className="grid grid-cols-4 gap-6 mb-10">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-10">
 
           <div className="bg-zinc-900 p-8 rounded-3xl">
 
             <h3 className="text-zinc-400 mb-4">
-              Total Tests
+              {t.totalTests}
             </h3>
 
-            <p className="text-6xl font-bold text-cyan-400">
+            <p className="text-5xl md:text-6xl font-bold text-cyan-400">
               {history.length}
             </p>
 
@@ -168,10 +486,10 @@ export default function TechnicianProfile() {
           <div className="bg-zinc-900 p-8 rounded-3xl">
 
             <h3 className="text-zinc-400 mb-4">
-              Faults
+              {t.faults}
             </h3>
 
-            <p className="text-6xl font-bold text-red-400">
+            <p className="text-5xl md:text-6xl font-bold text-red-400">
               {faults}
             </p>
 
@@ -181,10 +499,10 @@ export default function TechnicianProfile() {
           <div className="bg-zinc-900 p-8 rounded-3xl">
 
             <h3 className="text-zinc-400 mb-4">
-              Success Rate
+              {t.successRate}
             </h3>
 
-            <p className="text-6xl font-bold text-green-400">
+            <p className="text-5xl md:text-6xl font-bold text-green-400">
               {successRate}%
             </p>
 
@@ -194,13 +512,15 @@ export default function TechnicianProfile() {
           <div className="bg-zinc-900 p-8 rounded-3xl">
 
             <h3 className="text-zinc-400 mb-4">
-              AI Rating
+              {t.aiRating}
             </h3>
 
-            <p className="text-4xl font-bold text-yellow-400">
+            <p className="text-3xl md:text-4xl font-bold text-yellow-400">
+
               {successRate >= 90
-                ? 'EXCELLENT'
-                : 'GOOD'}
+                ? t.excellent
+                : t.good}
+
             </p>
 
           </div>
@@ -208,30 +528,30 @@ export default function TechnicianProfile() {
         </div>
 
 
-        <div className="grid grid-cols-2 gap-8 mb-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
 
           <div className="bg-zinc-900 rounded-3xl p-8">
 
             <h2 className="text-3xl font-bold mb-8">
-              Technician Information
+              {t.technicianInfo}
             </h2>
 
             <div className="space-y-5">
 
               <div className="bg-zinc-800 p-5 rounded-2xl">
-                Name: {technician.name}
+                {t.name}: {technician.name}
               </div>
 
               <div className="bg-zinc-800 p-5 rounded-2xl">
-                Technician ID: {technician.factoryID}
+                {t.technicianId}: {technician.factoryID || technician.technicianId}
               </div>
 
               <div className="bg-zinc-800 p-5 rounded-2xl">
-                Email: {technician.email}
+                {t.email}: {technician.email}
               </div>
 
               <div className="bg-zinc-800 p-5 rounded-2xl">
-                Status: {technician.status}
+                {t.status}: {technician.status}
               </div>
 
             </div>
@@ -242,7 +562,7 @@ export default function TechnicianProfile() {
           <div className="bg-zinc-900 rounded-3xl p-8">
 
             <h2 className="text-3xl font-bold mb-8">
-              AI Evaluation
+              {t.aiEvaluation}
             </h2>
 
             <div className="space-y-5">
@@ -250,22 +570,25 @@ export default function TechnicianProfile() {
               <div className="bg-zinc-800 p-5 rounded-2xl">
 
                 {faults > 5
-                  ? 'Frequent faults detected.'
-                  : 'Fault activity within normal range.'}
+                  ? t.frequent
+                  : t.normal}
 
               </div>
+
 
               <div className="bg-zinc-800 p-5 rounded-2xl">
 
                 {successRate >= 90
-                  ? 'Excellent diagnostic performance.'
-                  : 'Performance improvement recommended.'}
+                  ? t.performance
+                  : t.improve}
 
               </div>
 
+
               <div className="bg-zinc-800 p-5 rounded-2xl">
 
-                Total diagnostics:
+                {t.diagnostics}
+                :
                 {' '}
                 {history.length}
 
@@ -281,7 +604,7 @@ export default function TechnicianProfile() {
         <div className="bg-zinc-900 rounded-3xl p-8">
 
           <h2 className="text-3xl font-bold mb-8">
-            Real Diagnostic History
+            {t.realHistory}
           </h2>
 
 
@@ -290,7 +613,7 @@ export default function TechnicianProfile() {
             <div className="bg-zinc-800 p-8 rounded-2xl text-center">
 
               <p className="text-zinc-400">
-                No diagnostic history available
+                {t.noHistory}
               </p>
 
             </div>
@@ -309,11 +632,11 @@ export default function TechnicianProfile() {
                   className="bg-zinc-800 p-5 rounded-2xl"
                 >
 
-                  <div className="flex justify-between items-center">
+                  <div className="flex flex-col md:flex-row justify-between md:items-center gap-4">
 
                     <div>
 
-                      <p className="text-xl font-bold">
+                      <p className="text-xl font-bold break-words">
                         {item.result}
                       </p>
 
@@ -324,7 +647,7 @@ export default function TechnicianProfile() {
                     </div>
 
 
-                    <div className={`px-5 py-3 rounded-2xl font-bold ${
+                    <div className={`px-5 py-3 rounded-2xl font-bold text-center ${
                       item.result.includes('SHORT') ||
                       item.result.includes('FAULT') ||
                       item.result.includes('NC')
@@ -335,8 +658,8 @@ export default function TechnicianProfile() {
                       {item.result.includes('SHORT') ||
                       item.result.includes('FAULT') ||
                       item.result.includes('NC')
-                        ? 'FAULT'
-                        : 'PASS'}
+                        ? t.fault
+                        : t.pass}
 
                     </div>
 
