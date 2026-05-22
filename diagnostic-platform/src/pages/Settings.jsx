@@ -5,6 +5,229 @@ export default function Settings() {
 
   const navigate = useNavigate();
 
+  const language =
+    localStorage.getItem(
+      'language'
+    ) || 'en';
+
+
+  const translations = {
+
+    en: {
+
+      dashboard:
+        'Dashboard',
+
+      aiAssistant:
+        'AI Assistant',
+
+      analytics:
+        'Analytics',
+
+      diagnostic:
+        'Diagnostic',
+
+      history:
+        'History',
+
+      settings:
+        'Settings',
+
+      logout:
+        'LOGOUT',
+
+      title:
+        'Settings',
+
+      subtitle:
+        'Configure diagnostic system',
+
+      config:
+        'SYSTEM CONFIG',
+
+      technicianName:
+        'Technician Name',
+
+      language:
+        'Language',
+
+      changePassword:
+        'Change Password',
+
+      newPassword:
+        'New Password',
+
+      autoScan:
+        'Auto Scan',
+
+      autoScanDesc:
+        'Automatic cable detection',
+
+      aiMonitoring:
+        'AI Monitoring',
+
+      aiMonitoringDesc:
+        'Enable AI diagnostics',
+
+      notifications:
+        'Notifications',
+
+      notificationsDesc:
+        'Receive alerts',
+
+      save:
+        'SAVE SETTINGS',
+
+      success:
+        'Settings saved successfully'
+    },
+
+
+    fr: {
+
+      dashboard:
+        'Tableau de bord',
+
+      aiAssistant:
+        'Assistant IA',
+
+      analytics:
+        'Analytiques',
+
+      diagnostic:
+        'Diagnostic',
+
+      history:
+        'Historique',
+
+      settings:
+        'Paramètres',
+
+      logout:
+        'DÉCONNEXION',
+
+      title:
+        'Paramètres',
+
+      subtitle:
+        'Configurer le système diagnostic',
+
+      config:
+        'CONFIGURATION',
+
+      technicianName:
+        'Nom Technicien',
+
+      language:
+        'Langue',
+
+      changePassword:
+        'Changer mot de passe',
+
+      newPassword:
+        'Nouveau mot de passe',
+
+      autoScan:
+        'Scan Automatique',
+
+      autoScanDesc:
+        'Détection automatique câble',
+
+      aiMonitoring:
+        'Surveillance IA',
+
+      aiMonitoringDesc:
+        'Activer diagnostics IA',
+
+      notifications:
+        'Notifications',
+
+      notificationsDesc:
+        'Recevoir alertes',
+
+      save:
+        'ENREGISTRER',
+
+      success:
+        'Paramètres enregistrés'
+    },
+
+
+    ar: {
+
+      dashboard:
+        'لوحة التحكم',
+
+      aiAssistant:
+        'المساعد الذكي',
+
+      analytics:
+        'التحليلات',
+
+      diagnostic:
+        'التشخيص',
+
+      history:
+        'السجل',
+
+      settings:
+        'الإعدادات',
+
+      logout:
+        'تسجيل الخروج',
+
+      title:
+        'الإعدادات',
+
+      subtitle:
+        'إعداد نظام التشخيص',
+
+      config:
+        'إعدادات النظام',
+
+      technicianName:
+        'اسم الفني',
+
+      language:
+        'اللغة',
+
+      changePassword:
+        'تغيير كلمة المرور',
+
+      newPassword:
+        'كلمة مرور جديدة',
+
+      autoScan:
+        'الفحص التلقائي',
+
+      autoScanDesc:
+        'كشف الكابلات تلقائياً',
+
+      aiMonitoring:
+        'مراقبة الذكاء',
+
+      aiMonitoringDesc:
+        'تفعيل تشخيص الذكاء',
+
+      notifications:
+        'الإشعارات',
+
+      notificationsDesc:
+        'استقبال التنبيهات',
+
+      save:
+        'حفظ الإعدادات',
+
+      success:
+        'تم حفظ الإعدادات'
+    }
+
+  };
+
+
+  const t = translations[language];
+
+
   const technicians =
     JSON.parse(
       localStorage.getItem(
@@ -22,55 +245,66 @@ export default function Settings() {
   const technician =
     technicians.find(
       (tech) =>
-        tech.email === currentTechEmail
+        tech.email ===
+        currentTechEmail
     );
 
 
-  const [technicianName, setTechnicianName] =
+  const [technicianName,
+    setTechnicianName] =
     useState(
-      technician?.name || ''
+      technician?.name ||
+      technician?.technicianName ||
+      ''
     );
 
 
-  const [language, setLanguage] =
-    useState(
-      localStorage.getItem(
-        'language'
-      ) || 'en'
-    );
+  const [selectedLanguage,
+    setSelectedLanguage] =
+    useState(language);
 
 
-  const [newPassword, setNewPassword] =
+  const [newPassword,
+    setNewPassword] =
     useState('');
 
 
-  const [autoScan, setAutoScan] =
+  const [autoScan,
+    setAutoScan] =
     useState(
+
       JSON.parse(
         localStorage.getItem(
           'autoScan'
         )
       ) ?? true
+
     );
 
 
-  const [aiMonitoring, setAiMonitoring] =
+  const [aiMonitoring,
+    setAiMonitoring] =
     useState(
+
       JSON.parse(
         localStorage.getItem(
           'aiMonitoring'
         )
       ) ?? true
+
     );
 
 
-  const [notifications, setNotifications] =
+  const [notifications,
+    setNotifications] =
     useState(
+
       JSON.parse(
         localStorage.getItem(
           'notifications'
         )
       ) ?? true
+
     );
 
 
@@ -97,22 +331,31 @@ export default function Settings() {
 
     localStorage.setItem(
       'autoScan',
-      JSON.stringify(autoScan)
+      JSON.stringify(
+        autoScan
+      )
     );
+
 
     localStorage.setItem(
       'aiMonitoring',
-      JSON.stringify(aiMonitoring)
+      JSON.stringify(
+        aiMonitoring
+      )
     );
+
 
     localStorage.setItem(
       'notifications',
-      JSON.stringify(notifications)
+      JSON.stringify(
+        notifications
+      )
     );
+
 
     localStorage.setItem(
       'language',
-      language
+      selectedLanguage
     );
 
 
@@ -127,12 +370,19 @@ export default function Settings() {
           return {
 
             ...tech,
-            name: technicianName,
+
+            name:
+              technicianName,
+
+            technicianName:
+              technicianName,
+
             password:
               newPassword ||
               tech.password
 
           };
+
         }
 
         return tech;
@@ -141,16 +391,24 @@ export default function Settings() {
 
 
     localStorage.setItem(
+
       'technicians',
+
       JSON.stringify(
         updatedTechnicians
       )
+
     );
 
 
     alert(
-      'Settings saved successfully'
+      translations[
+        selectedLanguage
+      ].success
     );
+
+
+    window.location.reload();
 
   };
 
@@ -158,8 +416,6 @@ export default function Settings() {
   return (
 
     <div className="min-h-screen bg-black text-white flex">
-
-      {/* SIDEBAR */}
 
       <div className="w-72 bg-zinc-900 border-r border-zinc-800 p-6 overflow-y-auto hidden md:block">
 
@@ -176,7 +432,7 @@ export default function Settings() {
             }
             className="w-full text-left bg-zinc-800 p-4 rounded-2xl"
           >
-            Dashboard
+            {t.dashboard}
           </button>
 
           <button
@@ -185,7 +441,7 @@ export default function Settings() {
             }
             className="w-full text-left bg-zinc-800 p-4 rounded-2xl"
           >
-            AI Assistant
+            {t.aiAssistant}
           </button>
 
           <button
@@ -194,7 +450,7 @@ export default function Settings() {
             }
             className="w-full text-left bg-zinc-800 p-4 rounded-2xl"
           >
-            Analytics
+            {t.analytics}
           </button>
 
           <button
@@ -203,7 +459,7 @@ export default function Settings() {
             }
             className="w-full text-left bg-zinc-800 p-4 rounded-2xl"
           >
-            Diagnostic
+            {t.diagnostic}
           </button>
 
           <button
@@ -212,26 +468,24 @@ export default function Settings() {
             }
             className="w-full text-left bg-zinc-800 p-4 rounded-2xl"
           >
-            History
+            {t.history}
           </button>
 
           <button className="w-full text-left bg-cyan-500 text-black font-bold p-4 rounded-2xl">
-            Settings
+            {t.settings}
           </button>
 
           <button
             onClick={handleLogout}
             className="w-full bg-red-500 text-white font-bold p-4 rounded-2xl"
           >
-            LOGOUT
+            {t.logout}
           </button>
 
         </div>
 
       </div>
 
-
-      {/* MAIN */}
 
       <div className="flex-1 p-4 md:p-8 overflow-y-auto">
 
@@ -240,18 +494,18 @@ export default function Settings() {
           <div>
 
             <h1 className="text-4xl md:text-5xl font-bold mb-3">
-              Settings
+              {t.title}
             </h1>
 
             <p className="text-zinc-400">
-              Configure diagnostic system
+              {t.subtitle}
             </p>
 
           </div>
 
 
           <div className="bg-cyan-500/20 border border-cyan-500 text-cyan-400 px-6 py-3 rounded-2xl font-bold text-center">
-            SYSTEM CONFIG
+            {t.config}
           </div>
 
         </div>
@@ -259,12 +513,10 @@ export default function Settings() {
 
         <div className="space-y-6">
 
-          {/* TECHNICIAN NAME */}
-
           <div className="bg-zinc-900 rounded-3xl p-8">
 
             <h2 className="text-2xl font-bold mb-4">
-              Technician Name
+              {t.technicianName}
             </h2>
 
             <input
@@ -275,24 +527,22 @@ export default function Settings() {
                 )
               }
               className="w-full bg-zinc-800 p-5 rounded-2xl outline-none"
-              placeholder="Technician Name"
+              placeholder={t.technicianName}
             />
 
           </div>
 
 
-          {/* LANGUAGE */}
-
           <div className="bg-zinc-900 rounded-3xl p-8">
 
             <h2 className="text-2xl font-bold mb-4">
-              Language
+              {t.language}
             </h2>
 
             <select
-              value={language}
+              value={selectedLanguage}
               onChange={(e) =>
-                setLanguage(
+                setSelectedLanguage(
                   e.target.value
                 )
               }
@@ -304,11 +554,11 @@ export default function Settings() {
               </option>
 
               <option value="fr">
-                French
+                Français
               </option>
 
               <option value="ar">
-                Arabic
+                العربية
               </option>
 
             </select>
@@ -316,12 +566,10 @@ export default function Settings() {
           </div>
 
 
-          {/* CHANGE PASSWORD */}
-
           <div className="bg-zinc-900 rounded-3xl p-8">
 
             <h2 className="text-2xl font-bold mb-4">
-              Change Password
+              {t.changePassword}
             </h2>
 
             <input
@@ -333,31 +581,31 @@ export default function Settings() {
                 )
               }
               className="w-full bg-zinc-800 p-5 rounded-2xl outline-none"
-              placeholder="New Password"
+              placeholder={t.newPassword}
             />
 
           </div>
 
-
-          {/* AUTO SCAN */}
 
           <div className="bg-zinc-900 rounded-3xl p-8 flex justify-between items-center">
 
             <div>
 
               <h2 className="text-2xl font-bold">
-                Auto Scan
+                {t.autoScan}
               </h2>
 
               <p className="text-zinc-400 mt-2">
-                Automatic cable detection
+                {t.autoScanDesc}
               </p>
 
             </div>
 
             <button
               onClick={() =>
-                setAutoScan(!autoScan)
+                setAutoScan(
+                  !autoScan
+                )
               }
               className={`px-6 py-3 rounded-2xl font-bold ${
                 autoScan
@@ -371,18 +619,16 @@ export default function Settings() {
           </div>
 
 
-          {/* AI MONITORING */}
-
           <div className="bg-zinc-900 rounded-3xl p-8 flex justify-between items-center">
 
             <div>
 
               <h2 className="text-2xl font-bold">
-                AI Monitoring
+                {t.aiMonitoring}
               </h2>
 
               <p className="text-zinc-400 mt-2">
-                Enable AI diagnostics
+                {t.aiMonitoringDesc}
               </p>
 
             </div>
@@ -405,18 +651,16 @@ export default function Settings() {
           </div>
 
 
-          {/* NOTIFICATIONS */}
-
           <div className="bg-zinc-900 rounded-3xl p-8 flex justify-between items-center">
 
             <div>
 
               <h2 className="text-2xl font-bold">
-                Notifications
+                {t.notifications}
               </h2>
 
               <p className="text-zinc-400 mt-2">
-                Receive alerts
+                {t.notificationsDesc}
               </p>
 
             </div>
@@ -439,13 +683,11 @@ export default function Settings() {
           </div>
 
 
-          {/* SAVE */}
-
           <button
             onClick={saveSettings}
             className="w-full bg-cyan-500 hover:bg-cyan-400 transition text-black font-bold py-5 rounded-3xl text-xl"
           >
-            SAVE SETTINGS
+            {t.save}
           </button>
 
         </div>
