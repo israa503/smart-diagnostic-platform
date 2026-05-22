@@ -8,8 +8,9 @@ export default function Login() {
   const navigate = useNavigate();
 
   const language =
-    localStorage.getItem('language')
-    || 'en';
+    localStorage.getItem(
+      'language'
+    ) || 'en';
 
 
   const translations = {
@@ -31,14 +32,17 @@ export default function Login() {
       admin:
         'I am Factory Admin',
 
+      adminCode:
+        'Factory Admin Secret Code',
+
+      wrongCode:
+        'Wrong admin secret code',
+
       login:
         'LOGIN',
 
       create:
         'CREATE TECHNICIAN ACCOUNT',
-
-      success:
-        'Login successful',
 
       error:
         'Invalid email or password'
@@ -62,14 +66,17 @@ export default function Login() {
       admin:
         'Je suis Admin Usine',
 
+      adminCode:
+        'Code Secret Admin',
+
+      wrongCode:
+        'Code admin incorrect',
+
       login:
         'CONNEXION',
 
       create:
         'CRÉER COMPTE TECHNICIEN',
-
-      success:
-        'Connexion réussie',
 
       error:
         'Email ou mot de passe invalide'
@@ -93,14 +100,17 @@ export default function Login() {
       admin:
         'أنا مدير المصنع',
 
+      adminCode:
+        'الرمز السري للمدير',
+
+      wrongCode:
+        'رمز المدير غير صحيح',
+
       login:
         'تسجيل الدخول',
 
       create:
         'إنشاء حساب فني',
-
-      success:
-        'تم تسجيل الدخول',
 
       error:
         'البريد أو كلمة المرور خاطئة'
@@ -109,7 +119,8 @@ export default function Login() {
   };
 
 
-  const t = translations[language];
+  const t =
+    translations[language];
 
 
   const [email, setEmail] =
@@ -121,26 +132,47 @@ export default function Login() {
   const [isAdmin, setIsAdmin] =
     useState(false);
 
+  const [adminSecret,
+    setAdminSecret] =
+    useState('');
 
-  const handleLogin = async () => {
+
+  const handleLogin =
+    async () => {
 
     try {
 
       await signInWithEmailAndPassword(
+
         auth,
         email.trim(),
         password
+
       );
 
 
       if (isAdmin) {
+
+        if (
+          adminSecret !== '1234'
+        ) {
+
+          alert(
+            t.wrongCode
+          );
+
+          return;
+        }
+
 
         localStorage.setItem(
           'isFactoryAdmin',
           'true'
         );
 
-        navigate('/factory-admin');
+        navigate(
+          '/factory-admin'
+        );
 
       } else {
 
@@ -194,7 +226,6 @@ export default function Login() {
               )
             }
             placeholder={t.email}
-            autoComplete="email"
             className="w-full bg-[#23232b] text-white p-5 rounded-2xl outline-none border border-zinc-700"
           />
 
@@ -208,7 +239,6 @@ export default function Login() {
               )
             }
             placeholder={t.password}
-            autoComplete="current-password"
             className="w-full bg-[#23232b] text-white p-5 rounded-2xl outline-none border border-zinc-700"
           />
 
@@ -229,6 +259,23 @@ export default function Login() {
             />
 
           </div>
+
+
+          {isAdmin && (
+
+            <input
+              type="password"
+              value={adminSecret}
+              onChange={(e) =>
+                setAdminSecret(
+                  e.target.value
+                )
+              }
+              placeholder={t.adminCode}
+              className="w-full bg-[#23232b] text-white p-5 rounded-2xl outline-none border border-zinc-700"
+            />
+
+          )}
 
 
           <button
@@ -255,6 +302,5 @@ export default function Login() {
       </div>
 
     </div>
-
   );
 }
