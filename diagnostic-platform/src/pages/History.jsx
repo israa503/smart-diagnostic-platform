@@ -27,11 +27,28 @@ export default function History() {
     technician?.history || [];
 
 
+  const handleLogout = () => {
+
+    localStorage.removeItem(
+      'isLoggedIn'
+    );
+
+    localStorage.removeItem(
+      'isFactoryAdmin'
+    );
+
+    navigate('/');
+
+  };
+
+
   return (
 
     <div className="min-h-screen bg-black text-white flex">
 
-      <div className="w-72 bg-zinc-900 border-r border-zinc-800 p-6 overflow-y-auto">
+      {/* SIDEBAR */}
+
+      <div className="w-72 bg-zinc-900 border-r border-zinc-800 p-6 overflow-y-auto hidden md:block">
 
         <h1 className="text-3xl font-bold text-cyan-400 mb-12">
           Smart Diagnostic
@@ -89,18 +106,27 @@ export default function History() {
             Settings
           </button>
 
+          <button
+            onClick={handleLogout}
+            className="w-full bg-red-500 text-white font-bold p-4 rounded-2xl"
+          >
+            LOGOUT
+          </button>
+
         </div>
 
       </div>
 
 
-      <div className="flex-1 p-8 overflow-y-auto">
+      {/* MAIN */}
 
-        <div className="flex justify-between items-center mb-10">
+      <div className="flex-1 p-4 md:p-8 overflow-y-auto">
+
+        <div className="flex flex-col md:flex-row justify-between md:items-center gap-4 mb-10">
 
           <div>
 
-            <h1 className="text-5xl font-bold mb-3">
+            <h1 className="text-4xl md:text-5xl font-bold mb-3">
               Diagnostic History
             </h1>
 
@@ -111,7 +137,7 @@ export default function History() {
           </div>
 
 
-          <div className="bg-cyan-500/20 border border-cyan-500 text-cyan-400 px-6 py-3 rounded-2xl font-bold">
+          <div className="bg-cyan-500/20 border border-cyan-500 text-cyan-400 px-6 py-3 rounded-2xl font-bold text-center">
             {history.length} TESTS
           </div>
 
@@ -120,9 +146,9 @@ export default function History() {
 
         {history.length === 0 ? (
 
-          <div className="bg-zinc-900 rounded-3xl p-20 text-center">
+          <div className="bg-zinc-900 rounded-3xl p-10 md:p-20 text-center">
 
-            <h2 className="text-4xl font-bold mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">
               No Diagnostic History
             </h2>
 
@@ -143,14 +169,14 @@ export default function History() {
 
               <div
                 key={index}
-                className="bg-zinc-900 border border-zinc-800 rounded-3xl p-8"
+                className="bg-zinc-900 border border-zinc-800 rounded-3xl p-6 md:p-8"
               >
 
-                <div className="flex justify-between items-start">
+                <div className="flex flex-col md:flex-row justify-between md:items-start gap-6">
 
                   <div>
 
-                    <h2 className="text-2xl font-bold mb-4">
+                    <h2 className="text-2xl font-bold mb-4 break-words">
                       {item.result}
                     </h2>
 
@@ -161,13 +187,15 @@ export default function History() {
                   </div>
 
 
-                  <div className={`px-5 py-3 rounded-2xl font-bold ${
-                    item.result.includes('SHORT') ||
-                    item.result.includes('FAULT') ||
-                    item.result.includes('NC')
-                      ? 'bg-red-500 text-black'
-                      : 'bg-green-500 text-black'
-                  }`}>
+                  <div
+                    className={`px-5 py-3 rounded-2xl font-bold text-center ${
+                      item.result.includes('SHORT') ||
+                      item.result.includes('FAULT') ||
+                      item.result.includes('NC')
+                        ? 'bg-red-500 text-black'
+                        : 'bg-green-500 text-black'
+                    }`}
+                  >
 
                     {item.result.includes('SHORT') ||
                     item.result.includes('FAULT') ||
