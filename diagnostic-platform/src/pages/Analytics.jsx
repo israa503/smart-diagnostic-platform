@@ -73,11 +73,28 @@ export default function Analytics() {
     ).length;
 
 
+  const handleLogout = () => {
+
+    localStorage.removeItem(
+      'isLoggedIn'
+    );
+
+    localStorage.removeItem(
+      'isFactoryAdmin'
+    );
+
+    navigate('/');
+
+  };
+
+
   return (
 
     <div className="min-h-screen bg-black text-white flex">
 
-      <div className="w-72 bg-zinc-900 border-r border-zinc-800 p-6 overflow-y-auto">
+      {/* SIDEBAR */}
+
+      <div className="w-72 bg-zinc-900 border-r border-zinc-800 p-6 overflow-y-auto hidden md:block">
 
         <h1 className="text-3xl font-bold text-cyan-400 mb-12">
           Smart Diagnostic
@@ -135,18 +152,27 @@ export default function Analytics() {
             Settings
           </button>
 
+          <button
+            onClick={handleLogout}
+            className="w-full bg-red-500 text-white font-bold p-4 rounded-2xl"
+          >
+            LOGOUT
+          </button>
+
         </div>
 
       </div>
 
 
-      <div className="flex-1 p-8 overflow-y-auto">
+      {/* MAIN */}
 
-        <div className="flex justify-between items-center mb-10">
+      <div className="flex-1 p-4 md:p-8 overflow-y-auto">
+
+        <div className="flex flex-col md:flex-row justify-between md:items-center gap-4 mb-10">
 
           <div>
 
-            <h1 className="text-5xl font-bold mb-3">
+            <h1 className="text-4xl md:text-5xl font-bold mb-3">
               Analytics
             </h1>
 
@@ -157,14 +183,16 @@ export default function Analytics() {
           </div>
 
 
-          <div className="bg-cyan-500/20 border border-cyan-500 text-cyan-400 px-6 py-3 rounded-2xl font-bold">
+          <div className="bg-cyan-500/20 border border-cyan-500 text-cyan-400 px-6 py-3 rounded-2xl font-bold text-center">
             LIVE DATA
           </div>
 
         </div>
 
 
-        <div className="grid grid-cols-3 gap-6 mb-10">
+        {/* TOP STATS */}
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
 
           <div className="bg-zinc-900 p-8 rounded-3xl">
 
@@ -172,7 +200,7 @@ export default function Analytics() {
               Total Tests
             </h3>
 
-            <p className="text-6xl font-bold text-cyan-400">
+            <p className="text-5xl md:text-6xl font-bold text-cyan-400">
               {totalTests}
             </p>
 
@@ -185,7 +213,7 @@ export default function Analytics() {
               Total Faults
             </h3>
 
-            <p className="text-6xl font-bold text-red-400">
+            <p className="text-5xl md:text-6xl font-bold text-red-400">
               {faults}
             </p>
 
@@ -198,7 +226,7 @@ export default function Analytics() {
               Success Rate
             </h3>
 
-            <p className="text-6xl font-bold text-green-400">
+            <p className="text-5xl md:text-6xl font-bold text-green-400">
               {successRate}%
             </p>
 
@@ -207,7 +235,9 @@ export default function Analytics() {
         </div>
 
 
-        <div className="grid grid-cols-3 gap-6 mb-10">
+        {/* SECOND ROW */}
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
 
           <div className="bg-zinc-900 p-8 rounded-3xl">
 
@@ -215,7 +245,7 @@ export default function Analytics() {
               Short Circuits
             </h3>
 
-            <p className="text-6xl font-bold text-red-400">
+            <p className="text-5xl md:text-6xl font-bold text-red-400">
               {shortCircuits}
             </p>
 
@@ -228,7 +258,7 @@ export default function Analytics() {
               Voltage Faults
             </h3>
 
-            <p className="text-6xl font-bold text-yellow-400">
+            <p className="text-5xl md:text-6xl font-bold text-yellow-400">
               {voltageFaults}
             </p>
 
@@ -241,7 +271,7 @@ export default function Analytics() {
               NC Detections
             </h3>
 
-            <p className="text-6xl font-bold text-orange-400">
+            <p className="text-5xl md:text-6xl font-bold text-orange-400">
               {ncCount}
             </p>
 
@@ -249,6 +279,8 @@ export default function Analytics() {
 
         </div>
 
+
+        {/* AI SUMMARY */}
 
         <div className="bg-zinc-900 rounded-3xl p-8">
 
@@ -259,19 +291,27 @@ export default function Analytics() {
           <div className="space-y-5">
 
             <div className="bg-zinc-800 p-5 rounded-2xl">
+
               {faults > 5
                 ? 'High fault activity detected.'
                 : 'Fault activity within normal range.'}
+
             </div>
 
             <div className="bg-zinc-800 p-5 rounded-2xl">
+
               {successRate >= 90
                 ? 'Excellent diagnostic success rate.'
                 : 'Diagnostic performance should improve.'}
+
             </div>
 
             <div className="bg-zinc-800 p-5 rounded-2xl">
-              Total completed diagnostics: {totalTests}
+
+              Total completed diagnostics:
+              {' '}
+              {totalTests}
+
             </div>
 
           </div>
