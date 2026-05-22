@@ -74,6 +74,7 @@ export default function Login() {
           </div>
 
           <button
+            type="button"
             onClick={handleLogin}
             className="w-full bg-cyan-500 hover:bg-cyan-400 text-black font-bold py-5 rounded-2xl"
           >
@@ -81,6 +82,7 @@ export default function Login() {
           </button>
 
           <button
+            type="button"
             onClick={() => navigate("/register")}
             className="w-full bg-[#23232b] text-white py-5 rounded-2xl"
           >
