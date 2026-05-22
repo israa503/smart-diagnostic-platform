@@ -5,7 +5,7 @@ export default function Settings() {
 
   const navigate = useNavigate();
 
-  const language =
+  const currentLanguage =
     localStorage.getItem(
       'language'
     ) || 'en';
@@ -15,29 +15,15 @@ export default function Settings() {
 
     en: {
 
-      dashboard:
-        'Dashboard',
+      dashboard: 'Dashboard',
+      aiAssistant: 'AI Assistant',
+      analytics: 'Analytics',
+      diagnostic: 'Diagnostic',
+      history: 'History',
+      settings: 'Settings',
+      logout: 'LOGOUT',
 
-      aiAssistant:
-        'AI Assistant',
-
-      analytics:
-        'Analytics',
-
-      diagnostic:
-        'Diagnostic',
-
-      history:
-        'History',
-
-      settings:
-        'Settings',
-
-      logout:
-        'LOGOUT',
-
-      title:
-        'Settings',
+      title: 'Settings',
 
       subtitle:
         'Configure diagnostic system',
@@ -110,7 +96,7 @@ export default function Settings() {
         'Paramètres',
 
       subtitle:
-        'Configurer le système diagnostic',
+        'Configurer le système',
 
       config:
         'CONFIGURATION',
@@ -225,7 +211,10 @@ export default function Settings() {
   };
 
 
-  const t = translations[language];
+  const t =
+    translations[
+      currentLanguage
+    ];
 
 
   const technicians =
@@ -259,9 +248,11 @@ export default function Settings() {
     );
 
 
-  const [selectedLanguage,
-    setSelectedLanguage] =
-    useState(language);
+  const [language,
+    setLanguage] =
+    useState(
+      currentLanguage
+    );
 
 
   const [newPassword,
@@ -330,6 +321,12 @@ export default function Settings() {
   const saveSettings = () => {
 
     localStorage.setItem(
+      'language',
+      language
+    );
+
+
+    localStorage.setItem(
       'autoScan',
       JSON.stringify(
         autoScan
@@ -350,12 +347,6 @@ export default function Settings() {
       JSON.stringify(
         notifications
       )
-    );
-
-
-    localStorage.setItem(
-      'language',
-      selectedLanguage
     );
 
 
@@ -403,7 +394,7 @@ export default function Settings() {
 
     alert(
       translations[
-        selectedLanguage
+        language
       ].success
     );
 
@@ -540,9 +531,9 @@ export default function Settings() {
             </h2>
 
             <select
-              value={selectedLanguage}
+              value={language}
               onChange={(e) =>
-                setSelectedLanguage(
+                setLanguage(
                   e.target.value
                 )
               }
@@ -583,102 +574,6 @@ export default function Settings() {
               className="w-full bg-zinc-800 p-5 rounded-2xl outline-none"
               placeholder={t.newPassword}
             />
-
-          </div>
-
-
-          <div className="bg-zinc-900 rounded-3xl p-8 flex justify-between items-center">
-
-            <div>
-
-              <h2 className="text-2xl font-bold">
-                {t.autoScan}
-              </h2>
-
-              <p className="text-zinc-400 mt-2">
-                {t.autoScanDesc}
-              </p>
-
-            </div>
-
-            <button
-              onClick={() =>
-                setAutoScan(
-                  !autoScan
-                )
-              }
-              className={`px-6 py-3 rounded-2xl font-bold ${
-                autoScan
-                  ? 'bg-green-500 text-black'
-                  : 'bg-red-500 text-black'
-              }`}
-            >
-              {autoScan ? 'ON' : 'OFF'}
-            </button>
-
-          </div>
-
-
-          <div className="bg-zinc-900 rounded-3xl p-8 flex justify-between items-center">
-
-            <div>
-
-              <h2 className="text-2xl font-bold">
-                {t.aiMonitoring}
-              </h2>
-
-              <p className="text-zinc-400 mt-2">
-                {t.aiMonitoringDesc}
-              </p>
-
-            </div>
-
-            <button
-              onClick={() =>
-                setAiMonitoring(
-                  !aiMonitoring
-                )
-              }
-              className={`px-6 py-3 rounded-2xl font-bold ${
-                aiMonitoring
-                  ? 'bg-green-500 text-black'
-                  : 'bg-red-500 text-black'
-              }`}
-            >
-              {aiMonitoring ? 'ON' : 'OFF'}
-            </button>
-
-          </div>
-
-
-          <div className="bg-zinc-900 rounded-3xl p-8 flex justify-between items-center">
-
-            <div>
-
-              <h2 className="text-2xl font-bold">
-                {t.notifications}
-              </h2>
-
-              <p className="text-zinc-400 mt-2">
-                {t.notificationsDesc}
-              </p>
-
-            </div>
-
-            <button
-              onClick={() =>
-                setNotifications(
-                  !notifications
-                )
-              }
-              className={`px-6 py-3 rounded-2xl font-bold ${
-                notifications
-                  ? 'bg-green-500 text-black'
-                  : 'bg-red-500 text-black'
-              }`}
-            >
-              {notifications ? 'ON' : 'OFF'}
-            </button>
 
           </div>
 
