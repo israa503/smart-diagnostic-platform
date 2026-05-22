@@ -153,8 +153,15 @@ export default function Login() {
 
       if (isAdmin) {
 
+        const savedAdminCode =
+          localStorage.getItem(
+            'factoryAdminCode'
+          ) || '1234';
+
+
         if (
-          adminSecret !== '1234'
+          adminSecret !==
+          savedAdminCode
         ) {
 
           alert(
