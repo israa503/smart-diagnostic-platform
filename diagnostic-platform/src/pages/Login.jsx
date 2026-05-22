@@ -4,6 +4,7 @@ import { auth } from "../firebase/firebase";
 import { useNavigate } from "react-router-dom";
 
 export default function Login() {
+
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
@@ -11,7 +12,9 @@ export default function Login() {
   const [isAdmin, setIsAdmin] = useState(false);
 
   const handleLogin = async () => {
+
     try {
+
       await signInWithEmailAndPassword(
         auth,
         email.trim(),
@@ -19,19 +22,35 @@ export default function Login() {
       );
 
       if (isAdmin) {
+
+        localStorage.setItem(
+          "isFactoryAdmin",
+          "true"
+        );
+
         navigate("/factory-admin");
+
       } else {
+
+        localStorage.setItem(
+          "isLoggedIn",
+          "true"
+        );
+
         navigate("/dashboard");
       }
 
     } catch (error) {
+
       console.log(error);
       alert(error.message);
     }
   };
 
   return (
+
     <div className="min-h-screen bg-black flex items-center justify-center p-4">
+
       <div className="w-full max-w-xl bg-[#11131d] rounded-3xl p-6 md:p-12">
 
         <h1 className="text-5xl md:text-7xl font-bold text-cyan-400">
@@ -47,7 +66,9 @@ export default function Login() {
           <input
             type="email"
             value={email}
-            onChange={(e) => setEmail(e.target.value.trim())}
+            onChange={(e) =>
+              setEmail(e.target.value.trim())
+            }
             placeholder="Technician Email"
             autoComplete="email"
             className="w-full bg-[#23232b] text-white p-5 rounded-2xl outline-none"
@@ -56,21 +77,27 @@ export default function Login() {
           <input
             type="password"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) =>
+              setPassword(e.target.value)
+            }
             placeholder="Password"
             autoComplete="current-password"
             className="w-full bg-[#23232b] text-white p-5 rounded-2xl outline-none"
           />
 
           <div className="w-full bg-[#23232b] text-white p-5 rounded-2xl flex justify-between items-center">
+
             <span>I am Factory Admin</span>
 
             <input
               type="checkbox"
               checked={isAdmin}
-              onChange={() => setIsAdmin(!isAdmin)}
+              onChange={() =>
+                setIsAdmin(!isAdmin)
+              }
               className="w-6 h-6"
             />
+
           </div>
 
           <button
@@ -83,14 +110,18 @@ export default function Login() {
 
           <button
             type="button"
-            onClick={() => navigate("/register")}
+            onClick={() =>
+              navigate("/register")
+            }
             className="w-full bg-[#23232b] text-white py-5 rounded-2xl"
           >
             CREATE TECHNICIAN ACCOUNT
           </button>
 
         </div>
+
       </div>
+
     </div>
   );
 }
