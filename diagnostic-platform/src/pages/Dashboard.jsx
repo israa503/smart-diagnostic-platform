@@ -4,9 +4,233 @@ export default function Dashboard() {
 
   const navigate = useNavigate();
 
+  const language =
+    localStorage.getItem('language')
+    || 'en';
+
+
+  const translations = {
+
+    en: {
+
+      dashboard: 'Dashboard',
+      aiAssistant: 'AI Assistant',
+      analytics: 'Analytics',
+      diagnostic: 'Diagnostic',
+      history: 'History',
+      settings: 'Settings',
+      logout: 'Logout',
+
+      welcome: 'Welcome',
+      subtitle:
+        'Real-time industrial diagnostics',
+
+      online: 'ONLINE',
+
+      totalTests: 'Total Tests',
+      faults: 'Faults',
+      successRate: 'Success Rate',
+      status: 'Status',
+
+      active: 'ACTIVE',
+
+      technicianInfo:
+        'Technician Information',
+
+      name: 'Name',
+      technicianId:
+        'Technician ID',
+
+      email: 'Email',
+
+      aiRecommendations:
+        'AI Recommendations',
+
+      rec1:
+        'Inspect connector stability regularly.',
+
+      rec2:
+        'Monitor voltage fluctuations carefully.',
+
+      rec3:
+        'Continue preventive maintenance checks.',
+
+      recentActivity:
+        'Recent Diagnostic Activity',
+
+      noActivity:
+        'No diagnostic activity yet'
+    },
+
+
+    fr: {
+
+      dashboard:
+        'Tableau de bord',
+
+      aiAssistant:
+        'Assistant IA',
+
+      analytics:
+        'Analytiques',
+
+      diagnostic:
+        'Diagnostic',
+
+      history:
+        'Historique',
+
+      settings:
+        'Paramètres',
+
+      logout:
+        'Déconnexion',
+
+      welcome:
+        'Bienvenue',
+
+      subtitle:
+        'Diagnostics industriels en temps réel',
+
+      online:
+        'EN LIGNE',
+
+      totalTests:
+        'Tests Totaux',
+
+      faults:
+        'Défauts',
+
+      successRate:
+        'Taux de Réussite',
+
+      status:
+        'Statut',
+
+      active:
+        'ACTIF',
+
+      technicianInfo:
+        'Informations Technicien',
+
+      name:
+        'Nom',
+
+      technicianId:
+        'ID Technicien',
+
+      email:
+        'Email',
+
+      aiRecommendations:
+        'Recommandations IA',
+
+      rec1:
+        'Inspecter régulièrement les connecteurs.',
+
+      rec2:
+        'Surveiller les variations de tension.',
+
+      rec3:
+        'Continuer la maintenance préventive.',
+
+      recentActivity:
+        'Activité Diagnostique',
+
+      noActivity:
+        'Aucune activité diagnostique'
+    },
+
+
+    ar: {
+
+      dashboard:
+        'لوحة التحكم',
+
+      aiAssistant:
+        'المساعد الذكي',
+
+      analytics:
+        'التحليلات',
+
+      diagnostic:
+        'التشخيص',
+
+      history:
+        'السجل',
+
+      settings:
+        'الإعدادات',
+
+      logout:
+        'تسجيل الخروج',
+
+      welcome:
+        'مرحبا',
+
+      subtitle:
+        'تشخيص صناعي مباشر',
+
+      online:
+        'متصل',
+
+      totalTests:
+        'عدد الاختبارات',
+
+      faults:
+        'الأعطال',
+
+      successRate:
+        'نسبة النجاح',
+
+      status:
+        'الحالة',
+
+      active:
+        'نشط',
+
+      technicianInfo:
+        'معلومات الفني',
+
+      name:
+        'الاسم',
+
+      technicianId:
+        'رقم الفني',
+
+      email:
+        'البريد الإلكتروني',
+
+      aiRecommendations:
+        'توصيات الذكاء الاصطناعي',
+
+      rec1:
+        'افحص استقرار الموصلات بانتظام.',
+
+      rec2:
+        'راقب تغيرات الجهد الكهربائي.',
+
+      rec3:
+        'استمر في الصيانة الوقائية.',
+
+      recentActivity:
+        'آخر نشاط تشخيصي',
+
+      noActivity:
+        'لا يوجد نشاط تشخيصي'
+    }
+
+  };
+
+
+  const t = translations[language];
+
+
   const technicians =
     JSON.parse(
-      localStorage.getItem('technicians')
+      localStorage.getItem(
+        'technicians'
+      )
     ) || [];
 
 
@@ -47,11 +271,26 @@ export default function Dashboard() {
       : 100;
 
 
+  const handleLogout = () => {
+
+    localStorage.removeItem(
+      'isLoggedIn'
+    );
+
+    localStorage.removeItem(
+      'currentTechnician'
+    );
+
+    navigate('/');
+
+  };
+
+
   return (
 
     <div className="min-h-screen bg-black text-white flex">
 
-      <div className="w-72 bg-zinc-900 border-r border-zinc-800 p-6 overflow-y-auto">
+      <div className="w-72 bg-zinc-900 border-r border-zinc-800 p-6 overflow-y-auto hidden md:block">
 
         <h1 className="text-3xl font-bold text-cyan-400 mb-12">
           Smart Diagnostic
@@ -61,7 +300,7 @@ export default function Dashboard() {
         <div className="space-y-4">
 
           <button className="w-full text-left bg-cyan-500 text-black font-bold p-4 rounded-2xl">
-            Dashboard
+            {t.dashboard}
           </button>
 
           <button
@@ -70,7 +309,7 @@ export default function Dashboard() {
             }
             className="w-full text-left bg-zinc-800 p-4 rounded-2xl"
           >
-            AI Assistant
+            {t.aiAssistant}
           </button>
 
           <button
@@ -79,7 +318,7 @@ export default function Dashboard() {
             }
             className="w-full text-left bg-zinc-800 p-4 rounded-2xl"
           >
-            Analytics
+            {t.analytics}
           </button>
 
           <button
@@ -88,7 +327,7 @@ export default function Dashboard() {
             }
             className="w-full text-left bg-zinc-800 p-4 rounded-2xl"
           >
-            Diagnostic
+            {t.diagnostic}
           </button>
 
           <button
@@ -97,7 +336,7 @@ export default function Dashboard() {
             }
             className="w-full text-left bg-zinc-800 p-4 rounded-2xl"
           >
-            History
+            {t.history}
           </button>
 
           <button
@@ -106,26 +345,14 @@ export default function Dashboard() {
             }
             className="w-full text-left bg-zinc-800 p-4 rounded-2xl"
           >
-            Settings
+            {t.settings}
           </button>
 
           <button
-            onClick={() => {
-
-              localStorage.removeItem(
-                'isLoggedIn'
-              );
-
-              localStorage.removeItem(
-                'currentTechnician'
-              );
-
-              navigate('/');
-
-            }}
-            className="w-full text-left bg-red-500 text-black font-bold p-4 rounded-2xl"
+            onClick={handleLogout}
+            className="w-full bg-red-500 text-white font-bold p-4 rounded-2xl"
           >
-            Logout
+            {t.logout}
           </button>
 
         </div>
@@ -133,41 +360,43 @@ export default function Dashboard() {
       </div>
 
 
-      <div className="flex-1 p-8 overflow-y-auto">
+      <div className="flex-1 p-4 md:p-8 overflow-y-auto">
 
-        <div className="flex justify-between items-center mb-10">
+        <div className="flex flex-col md:flex-row justify-between md:items-center gap-4 mb-10">
 
           <div>
 
-            <h1 className="text-5xl font-bold mb-3">
-              Welcome,
+            <h1 className="text-4xl md:text-5xl font-bold mb-3">
+
+              {t.welcome},
               {' '}
               {technician?.name || 'Technician'}
+
             </h1>
 
             <p className="text-zinc-400">
-              Real-time industrial diagnostics
+              {t.subtitle}
             </p>
 
           </div>
 
 
-          <div className="bg-green-500 text-black px-6 py-3 rounded-2xl font-bold">
-            ONLINE
+          <div className="bg-green-500 text-black px-6 py-3 rounded-2xl font-bold text-center">
+            {t.online}
           </div>
 
         </div>
 
 
-        <div className="grid grid-cols-4 gap-6 mb-10">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
 
           <div className="bg-zinc-900 p-8 rounded-3xl">
 
             <h3 className="text-zinc-400 mb-4">
-              Total Tests
+              {t.totalTests}
             </h3>
 
-            <p className="text-6xl font-bold text-cyan-400">
+            <p className="text-5xl md:text-6xl font-bold text-cyan-400">
               {history.length}
             </p>
 
@@ -177,10 +406,10 @@ export default function Dashboard() {
           <div className="bg-zinc-900 p-8 rounded-3xl">
 
             <h3 className="text-zinc-400 mb-4">
-              Faults
+              {t.faults}
             </h3>
 
-            <p className="text-6xl font-bold text-red-400">
+            <p className="text-5xl md:text-6xl font-bold text-red-400">
               {faults}
             </p>
 
@@ -190,10 +419,10 @@ export default function Dashboard() {
           <div className="bg-zinc-900 p-8 rounded-3xl">
 
             <h3 className="text-zinc-400 mb-4">
-              Success Rate
+              {t.successRate}
             </h3>
 
-            <p className="text-6xl font-bold text-green-400">
+            <p className="text-5xl md:text-6xl font-bold text-green-400">
               {successRate}%
             </p>
 
@@ -203,11 +432,11 @@ export default function Dashboard() {
           <div className="bg-zinc-900 p-8 rounded-3xl">
 
             <h3 className="text-zinc-400 mb-4">
-              Status
+              {t.status}
             </h3>
 
             <p className="text-4xl font-bold text-green-400">
-              ACTIVE
+              {t.active}
             </p>
 
           </div>
@@ -215,30 +444,30 @@ export default function Dashboard() {
         </div>
 
 
-        <div className="grid grid-cols-2 gap-8 mb-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
 
           <div className="bg-zinc-900 rounded-3xl p-8">
 
             <h2 className="text-3xl font-bold mb-8">
-              Technician Information
+              {t.technicianInfo}
             </h2>
 
             <div className="space-y-5">
 
               <div className="bg-zinc-800 p-5 rounded-2xl">
-                Name: {technician?.name}
+                {t.name}: {technician?.name}
               </div>
 
               <div className="bg-zinc-800 p-5 rounded-2xl">
-                Technician ID: {technician?.factoryID}
+                {t.technicianId}: {technician?.factoryID}
               </div>
 
               <div className="bg-zinc-800 p-5 rounded-2xl">
-                Email: {technician?.email}
+                {t.email}: {technician?.email}
               </div>
 
               <div className="bg-zinc-800 p-5 rounded-2xl">
-                Status: ACTIVE
+                {t.status}: {t.active}
               </div>
 
             </div>
@@ -249,21 +478,21 @@ export default function Dashboard() {
           <div className="bg-zinc-900 rounded-3xl p-8">
 
             <h2 className="text-3xl font-bold mb-8">
-              AI Recommendations
+              {t.aiRecommendations}
             </h2>
 
             <div className="space-y-5">
 
               <div className="bg-zinc-800 p-5 rounded-2xl">
-                Inspect connector stability regularly.
+                {t.rec1}
               </div>
 
               <div className="bg-zinc-800 p-5 rounded-2xl">
-                Monitor voltage fluctuations carefully.
+                {t.rec2}
               </div>
 
               <div className="bg-zinc-800 p-5 rounded-2xl">
-                Continue preventive maintenance checks.
+                {t.rec3}
               </div>
 
             </div>
@@ -276,7 +505,7 @@ export default function Dashboard() {
         <div className="bg-zinc-900 rounded-3xl p-8">
 
           <h2 className="text-3xl font-bold mb-8">
-            Recent Diagnostic Activity
+            {t.recentActivity}
           </h2>
 
 
@@ -285,7 +514,7 @@ export default function Dashboard() {
             <div className="bg-zinc-800 p-8 rounded-2xl text-center">
 
               <p className="text-zinc-400">
-                No diagnostic activity yet
+                {t.noActivity}
               </p>
 
             </div>
@@ -305,7 +534,7 @@ export default function Dashboard() {
                   className="bg-zinc-800 p-5 rounded-2xl"
                 >
 
-                  <div className="flex justify-between items-center">
+                  <div className="flex flex-col md:flex-row justify-between md:items-center gap-2">
 
                     <p className="font-bold">
                       {item.result}
